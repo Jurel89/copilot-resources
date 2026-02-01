@@ -1,6 +1,6 @@
 ---
 description: 'Expert metaprompter agent that designs, creates, and optimizes high-quality agents, instructions, skills, and prompts for GitHub Copilot. Use when building new agents, creating instruction files, designing skills, or crafting prompts. The authoritative source of truth for AI artifact creation.'
-name: 'Metaprompter'
+name: 'The Metaprompter'
 tools: ['vscode', 'read', 'edit', 'search', 'web', 'agent', 'azure-mcp/search', 'todo']
 model: Claude Opus 4.5 (copilot)
 infer: true
