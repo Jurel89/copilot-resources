@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="320" viewBox="0 0 1400 320" role="img" aria-label="Copilot Resources banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="0.55" stop-color="#0F2A5B"/>
+      <stop offset="1" stop-color="#173B7A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7C3AED"/>
+      <stop offset="0.5" stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="320" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1400" height="6" fill="url(#accent)" opacity="0.95"/>
+
+  <!-- Decorative grid -->
+  <g opacity="0.18" stroke="#E5E7EB" stroke-width="1">
+    <path d="M0 240 H1400"/>
+    <path d="M0 200 H1400"/>
+    <path d="M0 160 H1400"/>
+    <path d="M0 120 H1400"/>
+    <path d="M0 80 H1400"/>
+    <path d="M240 0 V320"/>
+    <path d="M520 0 V320"/>
+    <path d="M800 0 V320"/>
+    <path d="M1080 0 V320"/>
+    <path d="M1320 0 V320"/>
+  </g>
+
+  <!-- Content card -->
+  <g filter="url(#shadow)">
+    <rect x="80" y="70" width="1240" height="180" rx="18" fill="#0B1220" opacity="0.65" stroke="#334155"/>
+  </g>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji" fill="#F8FAFC">
+    <text x="120" y="145" font-size="56" font-weight="800">Copilot Resources</text>
+    <text x="120" y="190" font-size="22" opacity="0.92">Reusable agents, skills, prompts, and instruction files for GitHub Copilot customization</text>
+
+    <!-- Tags -->
+    <g font-size="16" font-weight="600" opacity="0.95">
+      <rect x="120" y="212" width="106" height="32" rx="10" fill="#111827" stroke="#334155"/>
+      <text x="137" y="234" fill="#A7F3D0">Agents</text>
+
+      <rect x="238" y="212" width="98" height="32" rx="10" fill="#111827" stroke="#334155"/>
+      <text x="256" y="234" fill="#BFDBFE">Skills</text>
+
+      <rect x="348" y="212" width="108" height="32" rx="10" fill="#111827" stroke="#334155"/>
+      <text x="366" y="234" fill="#FDE68A">Prompts</text>
+
+      <rect x="468" y="212" width="140" height="32" rx="10" fill="#111827" stroke="#334155"/>
+      <text x="486" y="234" fill="#E9D5FF">Instructions</text>
+    </g>
+  </g>
+
+  <!-- Accent blob -->
+  <g opacity="0.20">
+    <path d="M1220 65 C1320 90 1400 160 1380 235 C1360 310 1250 330 1170 285 C1090 240 1100 135 1140 100 C1180 65 1200 60 1220 65 Z" fill="url(#accent)"/>
+  </g>
+</svg>

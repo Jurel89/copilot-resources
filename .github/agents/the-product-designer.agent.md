@@ -7,11 +7,7 @@ infer: true
 handoffs:
   - label: Create Technical Requirements
     agent: Technical Product Manager
-    prompt: 'Transform the product vision above into detailed technical requirements. Create a comprehensive TRD based on all features, capabilities, and quality standards defined in the product design document.'
-    send: false
-  - label: Research Technologies
-    agent: The Researcher
-    prompt: 'Research the latest technologies and approaches that could best implement the product vision above. Focus on innovative solutions that match the ambitious scope defined.'
+    prompt: 'Transform the product vision above into detailed technical requirements with acceptance criteria.'
     send: false
 ---
 

@@ -5,13 +5,9 @@ tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'azure-mc
 model: 'Claude Opus 4.5'
 infer: true
 handoffs:
-  - label: Start Implementation
-    agent: agent
-    prompt: 'Implement the technical requirements specification above. Follow each requirement precisely, respecting the defined acceptance criteria, technical constraints, and quality standards.'
-    send: false
-  - label: Create Architecture Design
-    agent: agent
-    prompt: 'Based on the requirements above, create a detailed architecture design document including system diagrams, component interactions, and data flow.'
+  - label: Implement Features
+    agent: Full Stack Engineer
+    prompt: 'Implement the technical requirements above following the acceptance criteria and quality standards.'
     send: false
 ---
 

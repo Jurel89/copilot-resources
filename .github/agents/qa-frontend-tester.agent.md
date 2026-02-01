@@ -6,13 +6,13 @@ model: 'Claude Sonnet 4.5'
 target: 'vscode'
 infer: true
 handoffs:
-  - label: Implement UI Fixes
-    agent: agent
-    prompt: 'Please implement the UI improvements and bug fixes documented in the QA report above.'
+  - label: Fix Issues
+    agent: Full Stack Engineer
+    prompt: 'Fix the bugs and implement the improvements identified in the QA report above.'
     send: false
-  - label: Create Tests
-    agent: agent
-    prompt: 'Based on the QA findings above, please create automated tests to prevent these issues from recurring.'
+  - label: Document Features
+    agent: The Documenter
+    prompt: 'The features have passed QA. Document them for users and developers.'
     send: false
 ---
 
