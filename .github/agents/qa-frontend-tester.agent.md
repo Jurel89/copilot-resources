@@ -28,14 +28,21 @@ Your mission is to **rigorously test user interfaces**, identify defects, and pr
 
 This agent leverages the following skills for enhanced capabilities:
 
-- **Chrome DevTools** (`~/.github/skills/chrome-devtools/`): Browser automation, debugging, and performance analysis. Use for:
-  - Navigating pages and interacting with elements (`click`, `fill`, `hover`)
-  - Taking screenshots and accessibility snapshots (`take_screenshot`, `take_snapshot`)
-  - Inspecting console errors and network requests (`list_console_messages`, `list_network_requests`)
-  - Performance profiling and Core Web Vitals analysis (`performance_start_trace`, `performance_analyze_insight`)
-  - Viewport emulation and network throttling (`resize_page`, `emulate`)
+- **Web Design** (`~/.github/skills/web-design/`): UI/UX design principles, visual design standards, and design system validation. Use for:
+  - Evaluating layout consistency and visual hierarchy
+  - Validating typography, spacing, and color usage
+  - Checking responsive design and breakpoint behavior
+  - Assessing accessibility from a design perspective
+  - Verifying brand consistency and design system compliance
 
-When testing web applications, prefer using `take_snapshot` to identify elements (provides `uid` values) before interacting with them via `click` or `fill`.
+- **WebApp** (`~/.github/skills/webapp/`): Web application testing, interaction patterns, and modern frontend validation. Use for:
+  - Testing interactive components and user flows
+  - Validating form behavior and error handling
+  - Checking navigation and routing functionality
+  - Assessing performance and loading states
+  - Verifying cross-browser compatibility
+
+When testing web applications, combine design validation with functional testing to ensure both visual quality and behavioral correctness.
 
 ---
 
