@@ -5,13 +5,9 @@ tools: ['read', 'search', 'web', 'edit', 'agent', 'todo']
 model: 'Claude Opus 4.5'
 infer: true
 handoffs:
-  - label: Implement Findings
-    agent: agent
-    prompt: 'Based on the research findings above, implement the recommended solution. Follow the approach and technology stack identified in the research.'
-    send: false
-  - label: Create Technical Specification
-    agent: Technical Product Manager
-    prompt: 'Transform the research findings above into a detailed Technical Requirements Document with acceptance criteria and implementation guidelines.'
+  - label: Design Product
+    agent: The Product Designer
+    prompt: 'Based on the research findings above, design the product vision and features.'
     send: false
 ---
 
