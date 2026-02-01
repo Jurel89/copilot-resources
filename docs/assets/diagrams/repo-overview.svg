@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-label="Copilot Resources overview diagram">
+  <defs>
+    <style>
+      .bg { fill: #0B1220; }
+      .panel { fill: #0F172A; stroke: #334155; stroke-width: 2; }
+      .card { fill: #111827; stroke: #334155; stroke-width: 2; }
+      .title { fill: #F8FAFC; font: 700 26px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+      .text { fill: #E2E8F0; font: 500 16px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+      .mono { fill: #CBD5E1; font: 500 14px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .label { fill: #94A3B8; font: 600 12px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; letter-spacing: 0.08em; }
+      .arrow { stroke: #94A3B8; stroke-width: 2.5; fill: none; marker-end: url(#arrowHead); }
+      .accentA { fill: #A7F3D0; }
+      .accentS { fill: #BFDBFE; }
+      .accentP { fill: #FDE68A; }
+      .accentI { fill: #E9D5FF; }
+      .accentD { fill: #67E8F9; }
+    </style>
+    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="520"/>
+
+  <text class="title" x="40" y="52">How this repo fits together</text>
+  <text class="text" x="40" y="80">Copilot loads small metadata first, then pulls the right asset on demand.</text>
+
+  <!-- Left: User + Chat -->
+  <rect class="panel" x="40" y="120" width="330" height="340" rx="16"/>
+  <text class="label" x="64" y="154">ENTRYPOINT</text>
+
+  <rect class="card" x="70" y="180" width="270" height="80" rx="14"/>
+  <text class="text" x="95" y="212">User request</text>
+  <text class="mono" x="95" y="240">"Help me write docs"</text>
+
+  <rect class="card" x="70" y="290" width="270" height="130" rx="14"/>
+  <text class="text" x="95" y="322">Copilot Chat</text>
+  <text class="mono" x="95" y="350">selects agent / prompt</text>
+  <text class="mono" x="95" y="374">applies instructions</text>
+  <text class="mono" x="95" y="398">loads skill resources</text>
+
+  <!-- Middle: Assets -->
+  <rect class="panel" x="420" y="120" width="430" height="340" rx="16"/>
+  <text class="label" x="444" y="154">CUSTOMIZATION ASSETS</text>
+
+  <!-- Agents -->
+  <rect class="card" x="450" y="180" width="180" height="100" rx="14"/>
+  <circle cx="470" cy="205" r="7" class="accentA"/>
+  <text class="text" x="486" y="212">Agents</text>
+  <text class="mono" x="470" y="242">.github/agents/</text>
+  <text class="mono" x="470" y="266">*.agent.md</text>
+
+  <!-- Instructions -->
+  <rect class="card" x="650" y="180" width="180" height="100" rx="14"/>
+  <circle cx="670" cy="205" r="7" class="accentI"/>
+  <text class="text" x="686" y="212">Instructions</text>
+  <text class="mono" x="670" y="242">.github/instructions/</text>
+  <text class="mono" x="670" y="266">*.instructions.md</text>
+
+  <!-- Skills -->
+  <rect class="card" x="450" y="300" width="180" height="120" rx="14"/>
+  <circle cx="470" cy="325" r="7" class="accentS"/>
+  <text class="text" x="486" y="332">Skills</text>
+  <text class="mono" x="470" y="362">.github/skills/</text>
+  <text class="mono" x="470" y="386">&lt;skill&gt;/SKILL.md</text>
+  <text class="mono" x="470" y="410">+ templates/scripts</text>
+
+  <!-- Prompts -->
+  <rect class="card" x="650" y="300" width="180" height="120" rx="14"/>
+  <circle cx="670" cy="325" r="7" class="accentP"/>
+  <text class="text" x="686" y="332">Prompts</text>
+  <text class="mono" x="670" y="362">.github/prompts/</text>
+  <text class="mono" x="670" y="386">*.prompt.md</text>
+  <text class="mono" x="670" y="410">/slash commands</text>
+
+  <!-- Right: Docs -->
+  <rect class="panel" x="900" y="120" width="260" height="340" rx="16"/>
+  <text class="label" x="924" y="154">HUMAN DOCS</text>
+
+  <rect class="card" x="930" y="200" width="200" height="220" rx="14"/>
+  <circle cx="950" cy="225" r="7" class="accentD"/>
+  <text class="text" x="966" y="232">Docs</text>
+  <text class="mono" x="950" y="262">docs/</text>
+  <text class="mono" x="950" y="288">guides/</text>
+  <text class="mono" x="950" y="312">architecture/</text>
+  <text class="mono" x="950" y="336">reference/</text>
+  <text class="mono" x="950" y="370">catalog + glossary</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M340 220 C380 220, 395 230, 420 230"/>
+  <path class="arrow" d="M340 350 C380 350, 395 345, 420 345"/>
+  <path class="arrow" d="M850 300 C880 300, 885 300, 900 300"/>
+
+  <!-- Footer note -->
+  <text class="text" x="40" y="502" opacity="0.9">Tip: keep diagrams in docs/assets/ and embed them in README/docs for quick scanning.</text>
+</svg>
