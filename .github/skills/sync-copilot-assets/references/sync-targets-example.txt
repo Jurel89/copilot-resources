@@ -1,0 +1,45 @@
+# Copilot Assets Sync Targets
+# ============================
+#
+# This file lists the target repositories that will receive synced
+# Copilot customization assets (agents, instructions, prompts, skills).
+#
+# FORMAT:
+#   - One absolute local filesystem path per line
+#   - Lines starting with # are comments (ignored)
+#   - Empty lines are ignored
+#   - Paths with spaces are supported (no special escaping required)
+#
+# USAGE:
+#   1. Copy this file to your repository root as: sync-targets.txt
+#   2. Add the absolute path to each cloned repository you want to sync to
+#   3. Run: node .github/skills/sync-copilot-assets/scripts/sync-copilot-assets.mjs --dry-run
+#   4. Run: node .github/skills/sync-copilot-assets/scripts/sync-copilot-assets.mjs
+#
+# WARNING:
+#   Sync performs FULL OVERWRITE - files in targets that don't exist in
+#   source will be DELETED. Always use --dry-run first!
+#
+# ============================================================================
+
+# Example: Project repositories
+# /Users/username/projects/project-alpha
+# /Users/username/projects/project-beta
+# /Users/username/projects/project-gamma
+
+# Example: Team/organization repositories
+# /Users/username/work/team-repo-1
+# /Users/username/work/team-repo-2
+
+# Example: Windows paths (both formats work)
+# C:\Users\username\projects\my-project
+# C:/Users/username/projects/my-project
+
+# Example: Linux paths
+# /home/username/projects/my-project
+
+# ============================================================================
+# Add your target repository paths below:
+# ============================================================================
+
+/Users/joseibanezortiz/develop/projects/bibliostack

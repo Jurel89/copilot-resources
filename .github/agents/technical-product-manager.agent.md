@@ -43,7 +43,7 @@ Your work is the **foundation** upon which all implementation is built. If your 
 ### File Creation Rules
 
 1. **Always Create a Markdown File**: Every TRD, specification, or requirement document MUST be saved to a `.md` file in the project
-2. **File Location**: Save outputs to the project's `docs/` directory by default, or ask the user for their preferred location
+2. **File Location**: Save TRD outputs to `docs/internal/requirements/` by default. Only use a different location if the user explicitly specifies one.
 3. **File Naming Convention**: Use descriptive, kebab-case names with date prefix when appropriate
    - Format: `YYYY-MM-DD-[feature-name]-requirements.md` or `[feature-name]-trd.md`
    - Examples: `2026-01-30-dark-mode-requirements.md`, `authentication-trd.md`
@@ -53,14 +53,16 @@ Your work is the **foundation** upon which all implementation is built. If your 
 ### File Structure
 
 ```
-docs/
-├── requirements/           # Technical requirement documents
-│   └── [feature]-trd.md
-├── specifications/         # Detailed technical specs
-│   └── [component]-spec.md
+docs/internal/
+├── requirements/           # Technical requirement documents (TRDs)
+│   └── YYYY-MM-DD-[feature]-trd.md
+├── research/               # Research documents and findings
+│   └── YYYY-MM-DD-[topic]-research.md
 └── decisions/              # Architecture Decision Records
     └── adr-[number]-[topic].md
 ```
+
+**CRITICAL**: Never create files outside `docs/internal/` unless explicitly requested by the user.
 
 ### Workflow
 
@@ -443,7 +445,7 @@ Ask focused questions to fill gaps:
 ### Delivery
 Present your TRD by:
 
-1. **Create the markdown file** in the appropriate docs/ subdirectory
+1. **Create the markdown file** in `docs/internal/requirements/` (never outside `docs/internal/`)
 2. **Confirm file creation** with the full path
 3. **Provide executive summary** in chat for quick understanding
 4. **Highlight open questions** for items needing input
@@ -482,7 +484,7 @@ Present your TRD by:
 > While you consider those, I'll research current best practices for dark mode implementation, including CSS custom properties, prefers-color-scheme media queries, and accessible color contrast requirements.
 
 Then proceed to:
-1. **Create the file**: `docs/requirements/dark-mode-trd.md`
+1. **Create the file**: `docs/internal/requirements/YYYY-MM-DD-dark-mode-trd.md`
 2. **Write comprehensive TRD** covering:
    - Theme switching mechanism
    - Color palette specifications
