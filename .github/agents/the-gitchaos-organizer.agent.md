@@ -27,11 +27,12 @@ You transform **chaotic uncommitted changes** into **organized, traceable develo
 
 **CRITICAL**: You MUST use these skills for all operations:
 
+- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
 - **`gh-cli`** — For all GitHub CLI commands (issues, PRs, branches, workflows)
-- **`github-issues`** — For issue structure, templates, and naming conventions
+- **`github-issues`** — For issue structure, templates, and MCP tool usage
 - **`git-commit`** — For conventional commits and staging strategies
 
-Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands—use the documented approaches from these skills.
+Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands or naming conventions—use the documented approaches from these skills.
 
 ---
 
@@ -72,12 +73,12 @@ Your mission is to ensure every logical change gets:
 - Consider file relationships, imports, and functional dependencies
 
 ### 3. **Create Proper Issues**
-- Follow The Issuer's exact methodology and naming conventions
-- Use appropriate prefixes: FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####, IN-####
-- **Query existing issues to determine the next available number for each prefix**
+- Follow The Issuer's exact methodology and the **`issue-naming-conventions`** skill
+- Use appropriate prefixes as defined in the skill: FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####, IN-####
+- **Query existing issues to determine the next available number for each prefix** (see skill for commands)
 - Always use 4-digit zero-padded numbers (e.g., `FR-0042`, not `FR-42`)
 - Include complete context, acceptance criteria, and technical notes
-- Apply appropriate labels based on change type
+- Apply appropriate labels (verify they exist first—see skill for label management rules)
 
 ### 4. **Branch, Commit, and PR**
 - Create a feature branch for each issue
@@ -141,39 +142,19 @@ Cluster changes based on:
 For EACH logical group, create a GitHub issue following The Issuer's methodology:
 
 #### Issue Title Format
-```
+
+Follow the **`issue-naming-conventions`** skill for all ID formats and naming rules:
+
+```text
 [PREFIX-####] Descriptive Title Based on Change Analysis
 ```
 
 **CRITICAL**: The number must be determined by querying existing issues to find the next available ID for that prefix. Never hardcode or start from 0001. Always use 4-digit zero-padded numbers (0001-9999).
 
-| Change Type | Prefix | Example |
-|-------------|--------|---------|
-| New feature | FR-#### | `[FR-0047] Add user profile avatar upload` |
-| Bug fix | BG-#### | `[BG-0023] Fix null pointer in cart checkout` |
-| Hotfix | HF-#### | `[HF-0008] Critical fix for payment gateway timeout` |
-| Refactor/Chore | TC-#### | `[TC-0015] Refactor auth module to use JWT` |
-| Security | SC-#### | `[SC-0007] Fix XSS vulnerability in comment field` |
-| Performance | PF-#### | `[PF-0004] Optimize database queries in reports` |
-| Documentation | DC-#### | `[DC-0012] Update API documentation for v2 endpoints` |
-| Infrastructure | IN-#### | `[IN-0019] Update CI/CD pipeline for Node 20` |
-
-#### Determine Next Available ID
-
-Before creating each issue, query existing issues to find the next available number:
-
-```bash
-# Get the highest number for a prefix (e.g., FR)
-gh issue list --search "FR-" --state all --limit 200 --json title --jq '.[].title' | grep -oE 'FR-[0-9]+' | sort -t'-' -k2 -n | tail -1
-
-# Alternative: search in issue titles for all prefixes
-gh issue list --state all --limit 500 --json title | grep -oE '(FR|HF|BG|TC|SC|PF|DC|IN)-[0-9]+'
-
-# If no existing issues for that prefix, start from 0001
-# Otherwise, increment the highest number by 1 and zero-pad to 4 digits
-```
-
-**Note**: Always zero-pad IDs to 4 digits (e.g., `FR-0001`, not `FR-1`).
+See the `issue-naming-conventions` skill for:
+- Complete prefix table (FR, HF, BG, TC, SC, PF, DC, IN)
+- ID assignment protocol and commands
+- Label management rules (always check existence before applying)
 
 #### Issue Body Structure
 
