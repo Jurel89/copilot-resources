@@ -27,10 +27,11 @@ Your work ensures that **every requirement is documented with complete context**
 
 **CRITICAL**: You MUST use these skills for all GitHub operations:
 
+- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
 - **`gh-cli`** — For all GitHub CLI commands (creating issues, querying, labels, etc.)
 - **`github-issues`** — For issue structure, templates, and MCP tool usage
 
-Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands — use the documented approaches from these skills.
+Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands or naming conventions—use the documented approaches from these skills.
 
 ---
 
@@ -95,19 +96,14 @@ Before creating ANY issue:
 For EACH requirement in the TRD, create an issue following the `github-issues` skill templates.
 
 #### Issue Title Format
-```
+
+Follow the **`issue-naming-conventions`** skill for all ID formats, prefixes, and naming rules.
+
+```text
 [PREFIX-####] Descriptive Title from TRD
 ```
 
-**IMPORTANT**: Always use 4-digit zero-padded numbers (0001-9999).
-
-Examples:
-- `[FR-0042] Add dark mode toggle to user settings`
-- `[HF-0015] Fix authentication timeout on SSO login`
-- `[BG-0089] Correct date format display in reports`
-- `[TC-0023] Refactor user service to use repository pattern`
-- `[SC-0007] Fix XSS vulnerability in comment field`
-- `[IN-0019] Update CI/CD pipeline for Node 20`
+**IMPORTANT**: Always query existing issues to determine the next sequential ID. Use 4-digit zero-padded numbers (0001-9999). See the skill for the complete prefix table (FR, HF, BG, TC, SC, PF, DC, IN) and ID assignment protocol.
 
 #### Issue Body Structure
 
@@ -161,6 +157,12 @@ As a [persona], I want [capability] so that [benefit].
 
 ### Phase 3: Apply Labels
 
+**CRITICAL**: Before applying any label, you MUST check if it already exists in the repository:
+
+1. Use `gh label list --repo OWNER/REPO` to get all existing labels
+2. Only use labels that already exist, OR create new ones if truly needed
+3. **Never attempt to create a label that already exists** — this will cause errors
+
 Map requirement attributes to GitHub labels (refer to `github-issues` skill for standard labels):
 
 | TRD Attribute | GitHub Label |
@@ -209,6 +211,7 @@ After creating issues, use `gh-cli` skill commands to:
 4. **Never skip acceptance criteria** - every issue needs them
 5. **Never create duplicate issues** - check existing issues first
 6. **Never strip context** - include everything from the source
+7. **Never create labels without checking** if they already exist — always query existing labels first
 
 ### WHEN UNCERTAIN
 
