@@ -40,72 +40,52 @@ Your work is the **foundation** upon which all implementation is built. If your 
 
 ---
 
+## Required Skills
+
+**CRITICAL**: You MUST use these skills when working with GitHub issues and labels:
+
+- **`issue-naming-conventions`** — **MANDATORY** for all requirement IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
+
+Refer to this skill for:
+- Requirement type prefixes (FR, HF, BG, TC, SC, PF, DC, IN)
+- ID assignment protocol (query existing, increment, never reuse)
+- Label management rules (verify existence, avoid synonyms)
+- Issue title and body formats
+
+---
+
 ## Requirement ID System
 
 **CRITICAL**: Every requirement MUST have a standardized, traceable ID with proper prefix and sequential numbering.
 
-### Requirement Type Prefixes
+Follow the **`issue-naming-conventions`** skill for complete details. Key points:
 
-| Prefix | Type | Description | Example |
-|--------|------|-------------|---------|
-| `FR-####` | Feature Request | New features, enhancements, capabilities | `FR-0042` |
-| `HF-####` | Hotfix | Urgent production fixes, critical bugs | `HF-0015` |
-| `BG-####` | Bug | Non-critical bugs, defects, issues | `BG-0089` |
-| `TC-####` | Technical Chore | Refactoring, tech debt, maintenance | `TC-0023` |
-| `SC-####` | Security | Security fixes, vulnerabilities, compliance | `SC-0007` |
-| `PF-####` | Performance | Performance improvements, optimizations | `PF-0011` |
-| `DC-####` | Documentation | Documentation updates, guides, specs | `DC-0034` |
-| `IN-####` | Infrastructure | CI/CD, deployment, infrastructure changes | `IN-0019` |
+### Quick Reference
+
+| Prefix | Type | Example |
+| ------ | ---- | ------- |
+| `FR-####` | Feature Request | `FR-0042` |
+| `HF-####` | Hotfix | `HF-0015` |
+| `BG-####` | Bug | `BG-0089` |
+| `TC-####` | Technical Chore | `TC-0023` |
+| `SC-####` | Security | `SC-0007` |
+| `PF-####` | Performance | `PF-0011` |
+| `DC-####` | Documentation | `DC-0034` |
+| `IN-####` | Infrastructure | `IN-0019` |
 
 ### ID Assignment Protocol
 
-**MANDATORY WORKFLOW**: Before assigning ANY requirement ID:
+**MANDATORY**: Before assigning ANY requirement ID, follow the protocol in the `issue-naming-conventions` skill:
 
-1. **Query Existing Issues**: Use `gh issue list` to check the repository's existing issues
-2. **Find Last Used Number**: Search for issues with your prefix type (e.g., `gh issue list --search "FR-" --limit 100`)
-3. **Increment Sequentially**: Use the next available number in sequence
-4. **Never Reuse IDs**: Even if an issue is closed, its ID is permanently allocated
+1. Query existing issues to find the highest used number for that prefix
+2. Increment sequentially (never reuse IDs, even for closed issues)
+3. Always use 4-digit zero-padded format (e.g., `FR-0001`, not `FR-1`)
 
-### How to Check Existing IDs
+### Labels
 
-```bash
-# Check all issues with a specific prefix (adjust prefix as needed)
-gh issue list --search "FR-" --state all --limit 200 --json number,title | grep -o 'FR-[0-9]\+'
-
-# Alternative: search in issue titles
-gh issue list --state all --limit 500 --json title | grep -oE '(FR|HF|BG|TC|SC|PF|DC|IN)-[0-9]+'
-
-# Get the highest number for a prefix
-gh issue list --search "FR-" --state all --limit 200 --json title --jq '.[].title' | grep -oE 'FR-[0-9]+' | sort -t'-' -k2 -n | tail -1
-```
-
-**Note**: Always zero-pad IDs to 4 digits (e.g., `FR-0001`, not `FR-1`).
-
-### ID Format in Requirements
-
-Every requirement in your TRD must include:
-
-```markdown
-#### FR-0043: [Descriptive Requirement Title]
-**Type**: Feature Request
-**Labels**: `enhancement`, `frontend`, `high-priority`
-**Priority**: P1
-**Description**: Clear, comprehensive description...
-```
-
-**IMPORTANT**: Always use 4-digit zero-padded numbers (0001-9999).
-
-### Labels to Include
-
-For every requirement, specify relevant GitHub labels:
-
-| Category | Labels |
-|----------|--------|
-| **Type** | `bug`, `enhancement`, `documentation`, `security`, `performance`, `infrastructure` |
-| **Priority** | `P0-critical`, `P1-high`, `P2-medium`, `P3-low` |
-| **Component** | `frontend`, `backend`, `api`, `database`, `auth`, `ui`, `devops` |
-| **Effort** | `size/XS`, `size/S`, `size/M`, `size/L`, `size/XL` |
-| **Status** | `needs-triage`, `ready`, `blocked`, `in-progress` |
+Before specifying labels for requirements, verify they exist in the repository. See the `issue-naming-conventions` skill for:
+- Standard label categories (Type, Priority, Component, Effort, Status)
+- Label management rules (never create duplicates, check for synonyms)
 
 ---
 
