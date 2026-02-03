@@ -22,9 +22,10 @@ Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.
 
 1. **Determine action**: Create, update, or query?
 2. **Gather context**: Get repo info, existing labels, milestones if needed
-3. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
-4. **Execute**: Call the appropriate MCP tool
-5. **Confirm**: Report the issue URL to user
+3. **Verify labels exist**: Before using any label, check it exists (see Label Management below)
+4. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
+5. **Execute**: Call the appropriate MCP tool
+6. **Confirm**: Report the issue URL to user
 
 ## Creating Issues
 
@@ -106,6 +107,35 @@ State values: `open`, `closed`
   "body": "## Summary\nAdd dark mode theme option for improved user experience and accessibility.\n\n## Motivation\n- Reduces eye strain in low-light environments\n- Increasingly expected by users\n- Improves accessibility\n\n## Proposed Solution\nImplement theme toggle with system preference detection.\n\n## Acceptance Criteria\n- [ ] Toggle switch in settings\n- [ ] Persists user preference\n- [ ] Respects system preference by default\n- [ ] All UI components support both themes\n\n## Alternatives Considered\nNone specified.\n\n## Additional Context\nHigh priority request.",
   "labels": ["enhancement", "high-priority"]
 }
+```
+
+## Label Management
+
+**CRITICAL**: Always check if labels exist before using them.
+
+### Check Existing Labels
+
+Before applying labels to any issue, query the repository's labels:
+
+```bash
+gh label list --repo OWNER/REPO
+```
+
+### Rules
+
+1. **Never create a label that already exists** — this causes errors
+2. **Only use existing labels** unless you explicitly need to create a new one
+3. **If a label doesn't exist** and is needed, create it first with `gh label create`
+4. **Prefer standard labels** (see table below) which usually exist in most repositories
+
+### Creating Labels (only when needed)
+
+```bash
+# First verify it doesn't exist
+gh label list --repo OWNER/REPO | grep -i "label-name"
+
+# Only then create if not found
+gh label create "label-name" --description "Description" --color "HEX" --repo OWNER/REPO
 ```
 
 ## Common Labels

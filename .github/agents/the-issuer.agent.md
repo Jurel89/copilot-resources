@@ -161,6 +161,12 @@ As a [persona], I want [capability] so that [benefit].
 
 ### Phase 3: Apply Labels
 
+**CRITICAL**: Before applying any label, you MUST check if it already exists in the repository:
+
+1. Use `gh label list --repo OWNER/REPO` to get all existing labels
+2. Only use labels that already exist, OR create new ones if truly needed
+3. **Never attempt to create a label that already exists** — this will cause errors
+
 Map requirement attributes to GitHub labels (refer to `github-issues` skill for standard labels):
 
 | TRD Attribute | GitHub Label |
@@ -209,6 +215,7 @@ After creating issues, use `gh-cli` skill commands to:
 4. **Never skip acceptance criteria** - every issue needs them
 5. **Never create duplicate issues** - check existing issues first
 6. **Never strip context** - include everything from the source
+7. **Never create labels without checking** if they already exist — always query existing labels first
 
 ### WHEN UNCERTAIN
 
