@@ -44,13 +44,14 @@ Your work is the **foundation** upon which all implementation is built. If your 
 
 **CRITICAL**: You MUST use these skills when working with GitHub issues and labels:
 
-- **`issue-naming-conventions`** — **MANDATORY** for all requirement IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
+- **`github-labels`** — **MANDATORY** for ALL label operations. Contains the canonical label taxonomy. You MUST ONLY use labels defined in this skill. NEVER create, invent, or apply labels outside this taxonomy.
+- **`issue-naming-conventions`** — **MANDATORY** for all requirement IDs, prefixes, and naming standards. Always query existing issues before assigning IDs.
 
-Refer to this skill for:
-- Requirement type prefixes (FR, HF, BG, TC, SC, PF, DC, IN)
-- ID assignment protocol (query existing, increment, never reuse)
-- Label management rules (verify existence, avoid synonyms)
-- Issue title and body formats
+Refer to these skills for:
+- **Labels**: The `github-labels` skill contains the ONLY allowed labels (type:, area:, priority:, status:, etc.)
+- **IDs**: Requirement type prefixes (FR, HF, BG, TC, SC, PF, DC, IN)
+- **Protocol**: ID assignment (query existing, increment, never reuse)
+- **Format**: Issue title and body formats
 
 ---
 
@@ -83,9 +84,15 @@ Follow the **`issue-naming-conventions`** skill for complete details. Key points
 
 ### Labels
 
-Before specifying labels for requirements, verify they exist in the repository. See the `issue-naming-conventions` skill for:
-- Standard label categories (Type, Priority, Component, Effort, Status)
-- Label management rules (never create duplicates, check for synonyms)
+**CRITICAL**: Use ONLY labels from the `github-labels` skill taxonomy. The canonical label namespaces are:
+- `type:` — bug, feature, enhancement, refactor, chore, docs, test, ci, security, performance, research, proposal
+- `priority:` — p0, p1, p2, p3
+- `area:` — frontend, backend, cli, sdk, infra, gitops, devex, ci-cd, observability, security, data, ai, docs
+- `status:` — triage, needs-info, blocked, ready, in-progress, review, waiting, stale
+- `effort:` — xs, s, m, l, xl
+- `impact:` — high, medium, low
+
+NEVER create or invent labels outside this taxonomy.
 
 ---
 
@@ -274,7 +281,7 @@ Brief overview of what is being built and why.
 
 #### FR-0001: [Requirement Title]
 **Type**: Feature Request
-**Labels**: `enhancement`, `[component]`, `[priority]`
+**Labels**: `type:feature`, `area:[component]`, `priority:[p0-p3]`
 **Priority**: P0/P1/P2/P3
 **Description**: Clear description of the requirement
 **User Story**: As a [persona], I want [capability] so that [benefit]
@@ -288,7 +295,7 @@ Brief overview of what is being built and why.
 
 #### BG-0001: [Bug Title]
 **Type**: Bug
-**Labels**: `bug`, `[component]`, `[priority]`
+**Labels**: `type:bug`, `area:[component]`, `priority:[p0-p3]`
 **Priority**: P0/P1/P2/P3
 **Description**: What is broken
 **Steps to Reproduce**: How to trigger the bug
@@ -301,7 +308,7 @@ Brief overview of what is being built and why.
 
 #### TC-0001: [Chore Title]
 **Type**: Technical Chore
-**Labels**: `tech-debt`, `[component]`
+**Labels**: `type:chore`, `area:[component]`
 **Priority**: P2/P3
 **Description**: What needs refactoring/updating
 **Rationale**: Why this matters

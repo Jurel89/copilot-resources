@@ -1,6 +1,6 @@
 ---
 name: github-issues
-description: 'Create, update, and manage GitHub issues using MCP tools. Use this skill when users want to create bug reports, feature requests, or task issues, update existing issues, add labels/assignees/milestones, or manage issue workflows. Triggers on requests like "create an issue", "file a bug", "request a feature", "update issue X", or any GitHub issue management task.'
+description: 'Create, update, and manage GitHub issues using MCP tools. Use this skill when users want to create bug reports, feature requests, or task issues, update existing issues, add assignees/milestones, or manage issue workflows. Triggers on requests like "create an issue", "file a bug", "request a feature", "update issue X", or any GitHub issue management task. Note: For labeling issues, the github-labels skill provides the canonical label taxonomy.'
 ---
 
 # GitHub Issues
@@ -21,11 +21,10 @@ Manage GitHub issues using the `@modelcontextprotocol/server-github` MCP server.
 ## Workflow
 
 1. **Determine action**: Create, update, or query?
-2. **Gather context**: Get repo info, existing labels, milestones if needed
-3. **Verify labels exist**: Before using any label, check it exists (see Label Management below)
-4. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
-5. **Execute**: Call the appropriate MCP tool
-6. **Confirm**: Report the issue URL to user
+2. **Gather context**: Get repo info, milestones if needed
+3. **Structure content**: Use appropriate template from [references/templates.md](references/templates.md)
+4. **Execute**: Call the appropriate MCP tool
+5. **Confirm**: Report the issue URL to user
 
 ## Creating Issues
 
@@ -41,7 +40,6 @@ body: structured markdown content
 ### Optional Parameters
 
 ```
-labels: ["bug", "enhancement", "documentation", ...]
 assignees: ["username1", "username2"]
 milestone: milestone number (integer)
 ```
@@ -72,7 +70,7 @@ Use `mcp__github__update_issue` with:
 
 ```
 owner, repo, issue_number (required)
-title, body, state, labels, assignees, milestone (optional - only changed fields)
+title, body, state, assignees, milestone (optional - only changed fields)
 ```
 
 State values: `open`, `closed`
@@ -89,8 +87,7 @@ State values: `open`, `closed`
   "owner": "github",
   "repo": "awesome-copilot",
   "title": "[Bug] Login page crashes when using SSO",
-  "body": "## Description\nThe login page crashes when users attempt to authenticate using SSO.\n\n## Steps to Reproduce\n1. Navigate to login page\n2. Click 'Sign in with SSO'\n3. Page crashes\n\n## Expected Behavior\nSSO authentication should complete and redirect to dashboard.\n\n## Actual Behavior\nPage becomes unresponsive and displays error.\n\n## Environment\n- Browser: [To be filled]\n- OS: [To be filled]\n\n## Additional Context\nReported by user.",
-  "labels": ["bug"]
+  "body": "## Description\nThe login page crashes when users attempt to authenticate using SSO.\n\n## Steps to Reproduce\n1. Navigate to login page\n2. Click 'Sign in with SSO'\n3. Page crashes\n\n## Expected Behavior\nSSO authentication should complete and redirect to dashboard.\n\n## Actual Behavior\nPage becomes unresponsive and displays error.\n\n## Environment\n- Browser: [To be filled]\n- OS: [To be filled]\n\n## Additional Context\nReported by user."
 }
 ```
 
@@ -104,55 +101,9 @@ State values: `open`, `closed`
   "owner": "github",
   "repo": "awesome-copilot",
   "title": "[Feature] Add dark mode support",
-  "body": "## Summary\nAdd dark mode theme option for improved user experience and accessibility.\n\n## Motivation\n- Reduces eye strain in low-light environments\n- Increasingly expected by users\n- Improves accessibility\n\n## Proposed Solution\nImplement theme toggle with system preference detection.\n\n## Acceptance Criteria\n- [ ] Toggle switch in settings\n- [ ] Persists user preference\n- [ ] Respects system preference by default\n- [ ] All UI components support both themes\n\n## Alternatives Considered\nNone specified.\n\n## Additional Context\nHigh priority request.",
-  "labels": ["enhancement", "high-priority"]
+  "body": "## Summary\nAdd dark mode theme option for improved user experience and accessibility.\n\n## Motivation\n- Reduces eye strain in low-light environments\n- Increasingly expected by users\n- Improves accessibility\n\n## Proposed Solution\nImplement theme toggle with system preference detection.\n\n## Acceptance Criteria\n- [ ] Toggle switch in settings\n- [ ] Persists user preference\n- [ ] Respects system preference by default\n- [ ] All UI components support both themes\n\n## Alternatives Considered\nNone specified.\n\n## Additional Context\nHigh priority request."
 }
 ```
-
-## Label Management
-
-**CRITICAL**: Always check if labels exist before using them.
-
-### Check Existing Labels
-
-Before applying labels to any issue, query the repository's labels:
-
-```bash
-gh label list --repo OWNER/REPO
-```
-
-### Rules
-
-1. **Never create a label that already exists** — this causes errors
-2. **Only use existing labels** unless you explicitly need to create a new one
-3. **If a label doesn't exist** and is needed, create it first with `gh label create`
-4. **Prefer standard labels** (see table below) which usually exist in most repositories
-
-### Creating Labels (only when needed)
-
-```bash
-# First verify it doesn't exist
-gh label list --repo OWNER/REPO | grep -i "label-name"
-
-# Only then create if not found
-gh label create "label-name" --description "Description" --color "HEX" --repo OWNER/REPO
-```
-
-## Common Labels
-
-Use these standard labels when applicable:
-
-| Label | Use For |
-|-------|---------|
-| `bug` | Something isn't working |
-| `enhancement` | New feature or improvement |
-| `documentation` | Documentation updates |
-| `good first issue` | Good for newcomers |
-| `help wanted` | Extra attention needed |
-| `question` | Further information requested |
-| `wontfix` | Will not be addressed |
-| `duplicate` | Already exists |
-| `high-priority` | Urgent issues |
 
 ## Tips
 

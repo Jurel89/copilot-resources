@@ -1,19 +1,18 @@
 ---
 name: issue-naming-conventions
-description: 'Standards for GitHub issue naming, requirement IDs, and labels. Use when creating issues, assigning IDs (FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####, IN-####), managing labels, or ensuring issue traceability. Triggers on: issue naming, requirement ID, issue prefix, label management, avoid duplicate labels, check existing issues, increment issue number, ID conventions.'
+description: 'Standards for GitHub issue naming and requirement IDs. Use when creating issues, assigning IDs (FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####, IN-####), or ensuring issue traceability. Triggers on: issue naming, requirement ID, issue prefix, check existing issues, increment issue number, ID conventions.'
 license: Complete terms in LICENSE.txt
 ---
 
-# Issue Naming Conventions & Labels
+# Issue Naming Conventions
 
-This skill defines the standard conventions for naming GitHub issues, assigning requirement IDs, and managing labels to ensure traceability, consistency, and avoid duplication.
+This skill defines the standard conventions for naming GitHub issues and assigning requirement IDs to ensure traceability and consistency.
 
 ## When to Use This Skill
 
 - Creating new GitHub issues with proper ID prefixes
 - Determining the next sequential ID for a requirement type
 - Checking existing issues before creating new ones
-- Managing labels (checking existence, avoiding duplicates)
 - Ensuring issue traceability across the codebase
 - Any workflow involving standardized issue naming
 
@@ -96,64 +95,6 @@ Even if an issue is closed or deleted, its ID is permanently allocated.
 - Use imperative mood ("Add", "Fix", "Update", not "Added", "Fixed")
 - Include key context (component, scope)
 
-## Label Management
-
-### Pre-Flight Check: ALWAYS Verify Labels Exist
-
-**CRITICAL**: Before applying ANY label to an issue:
-
-```bash
-# List all labels in the repository
-gh label list --repo OWNER/REPO
-
-# Check if a specific label exists
-gh label list --repo OWNER/REPO | grep -i "label-name"
-```
-
-### Label Rules
-
-| Rule | Rationale |
-| ---- | --------- |
-| **Never create duplicate labels** | Causes confusion and breaks filtering |
-| **Check synonyms** | Don't create `high-priority` if `priority/high` exists |
-| **Use existing labels** | Prefer repository's established conventions |
-| **Create only when necessary** | If label is truly missing and needed |
-| **Maintain consistency** | Follow existing naming patterns (kebab-case, slash-namespaced, etc.) |
-
-### Creating Labels (Only When Needed)
-
-```bash
-# First verify it doesn't exist (including synonyms)
-gh label list --repo OWNER/REPO | grep -iE "(priority|high|urgent)"
-
-# Only then create if not found
-gh label create "high-priority" --description "Urgent issues requiring immediate attention" --color "d73a4a" --repo OWNER/REPO
-```
-
-### Standard Label Categories
-
-For every issue, specify relevant labels from these categories:
-
-| Category | Labels |
-| -------- | ------ |
-| **Type** | `bug`, `enhancement`, `documentation`, `security`, `performance`, `infrastructure` |
-| **Priority** | `P0-critical`, `P1-high`, `P2-medium`, `P3-low` |
-| **Component** | `frontend`, `backend`, `api`, `database`, `auth`, `ui`, `devops` |
-| **Effort** | `size/XS`, `size/S`, `size/M`, `size/L`, `size/XL` |
-| **Status** | `needs-triage`, `ready`, `blocked`, `in-progress` |
-
-### Avoiding Synonym Conflicts
-
-Before creating a label, check for synonyms:
-
-| If you want... | Check for existing... |
-| -------------- | -------------------- |
-| `high-priority` | `priority/high`, `urgent`, `P1`, `critical` |
-| `bug` | `defect`, `issue`, `problem` |
-| `enhancement` | `feature`, `improvement`, `request` |
-| `documentation` | `docs`, `doc` |
-| `help wanted` | `help-wanted`, `good first issue` |
-
 ## Issue Body Structure
 
 ### Standard Sections
@@ -163,7 +104,6 @@ Every issue should include:
 ```markdown
 #### PREFIX-####: [Descriptive Requirement Title]
 **Type**: [Feature Request | Bug | Hotfix | Technical Chore | Security | Performance | Documentation | Infrastructure]
-**Labels**: `label1`, `label2`, `label3`
 **Priority**: P0/P1/P2/P3
 **Description**: Clear, comprehensive description...
 ```
@@ -181,8 +121,6 @@ Before creating any issue:
 - [ ] Found the highest existing ID for that prefix
 - [ ] Incremented to next sequential ID
 - [ ] Formatted ID with 4-digit zero-padding
-- [ ] Verified all labels exist in the repository
-- [ ] Checked for synonym labels before creating new ones
 - [ ] Used appropriate type-specific template for body
 - [ ] Title is under 72 characters and actionable
 
@@ -192,22 +130,9 @@ Before creating any issue:
 # Find next ID for a prefix (replace FR with desired prefix)
 PREFIX="FR" && gh issue list --search "$PREFIX-" --state all --limit 500 --json title --jq '.[].title' | grep -oE "$PREFIX-[0-9]+" | sort -t'-' -k2 -n | tail -1 | awk -F'-' -v p="$PREFIX" '{printf "%s-%04d\n", p, $2+1}'
 
-# List all labels
-gh label list --repo OWNER/REPO
-
 # Search for existing issues by keyword
 gh issue list --search "keyword" --state all --limit 50
 
 # Check if issue with ID already exists
 gh issue list --search "FR-0043" --state all
 ```
-
-## Integration with Other Skills
-
-This skill provides naming conventions used by:
-
-- **github-issues**: For MCP-based issue creation
-- **Technical Product Manager agent**: For TRD requirement IDs
-- **Any agent creating GitHub issues**: For consistent naming
-
-Reference this skill's conventions to ensure all issues follow the same standards.
