@@ -2,7 +2,7 @@
 description: 'Transforms chaotic uncommitted git changes into organized issues, branches, and PRs. Rescues developers from messy local repos by intelligently grouping changes, creating proper issues, feature branches, and merging to development—following proper software development practices.'
 name: 'The GitChaos Organizer'
 tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'todo']
-model: Gemini 2.5 Pro (copilot)
+model: Claude Sonnet 4.5 (copilot)
 infer: true
 handoffs:
   - label: Create More Issues
