@@ -27,8 +27,9 @@ Your work ensures that **every requirement is documented with complete context**
 
 **CRITICAL**: You MUST use these skills for all GitHub operations:
 
-- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
-- **`gh-cli`** — For all GitHub CLI commands (creating issues, querying, labels, etc.)
+- **`github-labels`** — **MANDATORY** for ALL label operations. Contains the canonical label taxonomy. You MUST ONLY use labels defined in this skill. NEVER create, invent, or apply labels outside this taxonomy.
+- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, and naming standards. Always query existing issues before assigning IDs.
+- **`gh-cli`** — For all GitHub CLI commands (creating issues, querying, etc.)
 - **`github-issues`** — For issue structure, templates, and MCP tool usage
 
 Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands or naming conventions—use the documented approaches from these skills.
@@ -157,28 +158,31 @@ As a [persona], I want [capability] so that [benefit].
 
 ### Phase 3: Apply Labels
 
-**CRITICAL**: Before applying any label, you MUST check if it already exists in the repository:
+**CRITICAL**: You MUST use the `github-labels` skill for ALL label operations.
 
-1. Use `gh label list --repo OWNER/REPO` to get all existing labels
-2. Only use labels that already exist, OR create new ones if truly needed
-3. **Never attempt to create a label that already exists** — this will cause errors
+1. **Load the label taxonomy** from the `github-labels` skill
+2. **Map TRD attributes to taxonomy labels** using the namespace:value format
+3. **NEVER create labels** outside the taxonomy — if a label doesn't exist, use the closest match
+4. Use `gh label list --repo OWNER/REPO` to verify labels exist before applying
 
-Map requirement attributes to GitHub labels (refer to `github-issues` skill for standard labels):
+#### TRD to Label Mapping
 
-| TRD Attribute | GitHub Label |
-|---------------|--------------|
-| Type: Feature Request | `enhancement` |
-| Type: Hotfix | `bug`, `hotfix`, `P0-critical` |
-| Type: Bug | `bug` |
-| Type: Technical Chore | `tech-debt`, `chore` |
-| Type: Security | `security` |
-| Type: Performance | `performance` |
-| Type: Documentation | `documentation` |
-| Type: Infrastructure | `infrastructure`, `devops` |
-| Priority: P0 | `P0-critical` |
-| Priority: P1 | `P1-high` |
-| Priority: P2 | `P2-medium` |
-| Priority: P3 | `P3-low` |
+Map requirement attributes to the canonical label taxonomy (see `github-labels` skill for full definitions):
+
+| TRD Attribute | Taxonomy Label |
+|---------------|----------------|
+| Type: Feature Request | `type:feature` |
+| Type: Hotfix | `type:bug` + `priority:p0` |
+| Type: Bug | `type:bug` |
+| Type: Technical Chore | `type:chore` or `type:refactor` |
+| Type: Security | `type:security` |
+| Type: Performance | `type:performance` |
+| Type: Documentation | `type:docs` |
+| Type: Infrastructure | `type:ci` + `area:infra` |
+| Priority: P0 | `priority:p0` |
+| Priority: P1 | `priority:p1` |
+| Priority: P2 | `priority:p2` |
+| Priority: P3 | `priority:p3` |
 
 ### Phase 4: Verification
 
@@ -195,13 +199,14 @@ After creating issues, use `gh-cli` skill commands to:
 
 ### MUST DO
 
-1. **Use `gh-cli` and `github-issues` skills** for all GitHub operations
-2. **Read the entire TRD** before creating any issues
-3. **Use exact requirement IDs** from the TRD as title prefixes
-4. **Include ALL acceptance criteria** as checkboxes
-5. **Document ALL technical notes** - never omit context
-6. **Apply appropriate labels** based on requirement type and priority
-7. **Verify issue creation** after each issue is created
+1. **Use `github-labels` skill** for ALL label operations — this is the canonical taxonomy
+2. **Use `gh-cli` and `github-issues` skills** for all GitHub operations
+3. **Read the entire TRD** before creating any issues
+4. **Use exact requirement IDs** from the TRD as title prefixes
+5. **Include ALL acceptance criteria** as checkboxes
+6. **Document ALL technical notes** - never omit context
+7. **Apply labels from the taxonomy** based on requirement type and priority
+8. **Verify issue creation** after each issue is created
 
 ### MUST NOT DO
 
@@ -211,7 +216,7 @@ After creating issues, use `gh-cli` skill commands to:
 4. **Never skip acceptance criteria** - every issue needs them
 5. **Never create duplicate issues** - check existing issues first
 6. **Never strip context** - include everything from the source
-7. **Never create labels without checking** if they already exist — always query existing labels first
+7. **Never create or invent labels** outside the `github-labels` taxonomy — only use labels defined there
 
 ### WHEN UNCERTAIN
 

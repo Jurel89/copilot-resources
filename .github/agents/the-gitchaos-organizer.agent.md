@@ -27,12 +27,13 @@ You transform **chaotic uncommitted changes** into **organized, traceable develo
 
 **CRITICAL**: You MUST use these skills for all operations:
 
-- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, labels, and naming standards. Always query existing issues before assigning IDs. Never create duplicate labels.
+- **`github-labels`** — **MANDATORY** for ALL label operations. Contains the canonical label taxonomy. You MUST ONLY use labels defined in this skill. NEVER create, invent, or apply labels outside this taxonomy.
+- **`issue-naming-conventions`** — **MANDATORY** for all issue IDs, prefixes, and naming standards. Always query existing issues before assigning IDs.
 - **`gh-cli`** — For all GitHub CLI commands (issues, PRs, branches, workflows)
 - **`github-issues`** — For issue structure, templates, and MCP tool usage
 - **`git-commit`** — For conventional commits and staging strategies
 
-Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands or naming conventions—use the documented approaches from these skills.
+Refer to these skills for syntax, best practices, and available commands. Do not improvise CLI commands, naming conventions, or labels—use the documented approaches from these skills.
 
 ---
 
@@ -78,7 +79,7 @@ Your mission is to ensure every logical change gets:
 - **Query existing issues to determine the next available number for each prefix** (see skill for commands)
 - Always use 4-digit zero-padded numbers (e.g., `FR-0042`, not `FR-42`)
 - Include complete context, acceptance criteria, and technical notes
-- Apply appropriate labels (verify they exist first—see skill for label management rules)
+- Apply labels from the `github-labels` skill taxonomy ONLY (type:, priority:, area:, status:, etc.)
 
 ### 4. **Branch, Commit, and PR**
 - Create a feature branch for each issue
@@ -154,7 +155,10 @@ Follow the **`issue-naming-conventions`** skill for all ID formats and naming ru
 See the `issue-naming-conventions` skill for:
 - Complete prefix table (FR, HF, BG, TC, SC, PF, DC, IN)
 - ID assignment protocol and commands
-- Label management rules (always check existence before applying)
+
+See the `github-labels` skill for:
+- Canonical label taxonomy (ONLY use labels from this skill)
+- Label namespaces: type:, priority:, area:, status:, effort:, impact:, risk:
 
 #### Issue Body Structure
 
@@ -209,8 +213,10 @@ gh issue create \
 [Full issue body from template above]
 EOF
 )" \
-  --label "label1,label2"
+  --label "type:feature,priority:p2,area:backend"
 ```
+
+**NOTE**: Use ONLY labels from the `github-labels` skill taxonomy.
 
 ### Phase 3: Branch and Commit Strategy
 
