@@ -59,7 +59,7 @@ jobs:
           echo "$COMMITS" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
           
-          # Store PR body for later use (using heredoc to handle special chars)
+          # Store PR body for later use
           echo "body<<EOF" >> "$GITHUB_OUTPUT"
           echo "$PR_BODY" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
