@@ -35,13 +35,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          # Pass PR data as env vars to avoid shell injection from backticks/special chars
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
-          # Get PR details
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
-          PR_URL="${{ github.event.pull_request.html_url }}"
-          
+          # Output PR details safely using environment variables
           echo "title=${PR_TITLE}" >> "$GITHUB_OUTPUT"
           echo "author=${PR_AUTHOR}" >> "$GITHUB_OUTPUT"
           echo "url=${PR_URL}" >> "$GITHUB_OUTPUT"
