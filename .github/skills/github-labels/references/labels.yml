@@ -149,8 +149,10 @@ groups:
           Changes ONLY to documentation, with NO code changes. Use for:
           README updates, API documentation, code comments, JSDoc/docstrings,
           architecture diagrams, user guides, or changelog entries.
-          DO NOT use for: code changes that also update docs (use the primary
-          type and mention docs in description).
+          DO NOT use for: (1) code changes that also update docs (use the primary
+          type and mention docs in description), (2) agent files (*.agent.md),
+          (3) skill files (SKILL.md), (4) instruction files (*.instructions.md),
+          or (5) prompt files (*.prompt.md). These are configuration, not documentation.
         examples:
           - "Add API usage examples to README"
           - "Document new environment variables"

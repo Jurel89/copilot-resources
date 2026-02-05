@@ -1,5 +1,5 @@
 ---
-description: 'Fully automate organizing uncommitted changes into documented issues, branches, PRs, and merges to the version development branch'
+description: 'Fully automate organizing uncommitted changes into documented issues, branches, PRs, and merges to main'
 name: 'organize-chaos'
 agent: 'The GitChaos Organizer'
 tools: ['execute', 'read', 'agent', 'edit', 'search', 'todo']
@@ -21,7 +21,7 @@ Execute these phases **in sequence and to completion**:
 1. **Deep Analysis** — Thoroughly analyze all uncommitted changes
 2. **Issue Creation** — Create detailed, documented GitHub issues for each logical group
 3. **Branch & Commit** — Create feature branches and conventional commits
-4. **PR Creation** — Open PRs targeting `v{version}/development`
+4. **PR Creation** — Open PRs targeting `main`
 5. **CI Monitoring** — Wait for all CI workflows/checks to pass
 6. **Merge & Close** — Merge PRs and verify issue closure
 7. **Cleanup & Report** — Clean up branches and provide final summary
@@ -46,16 +46,7 @@ git diff
 git branch --show-current
 ```
 
-### Step 1.2: Read VERSION File
-
-```bash
-# Get current version for branch targeting
-cat VERSION
-```
-
-Store the version as `{version}` for use in branch naming (e.g., `v1.2.0/development`).
-
-### Step 1.3: Analyze Each Change
+### Step 1.2: Analyze Each Change
 
 For **every modified, added, or deleted file**:
 
@@ -64,6 +55,23 @@ For **every modified, added, or deleted file**:
 3. **Identify DEPENDENCIES**: Files that must be committed together
 4. **Extract CONTEXT**: Why this change was made (from code comments, variable names, etc.)
 5. **Assess COMPLEXITY**: Simple change vs. significant refactor
+
+### Step 1.3b: Apply File Type Classification Rules (CRITICAL)
+
+**⚠️ BEFORE assigning Documentation (DC) type, apply these mandatory rules:**
+
+| If file matches... | Then type is... | NEVER use |
+|--------------------|-----------------|----------|
+| `.github/**/*.agent.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
+| `.github/**/*.instructions.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
+| `.github/**/SKILL.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
+| `.github/**/*.prompt.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
+| `.github/**/*.yml` (non-workflow) | Technical Chore (TC) | ~~DC~~ |
+| `.github/workflows/**` | Infrastructure (IN) | ~~DC~~ |
+| `docs/**/*.md` | Documentation (DC) | ✓ Correct |
+| `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md` | Documentation (DC) | ✓ Correct |
+
+**Rule**: Files in `.github/` that configure AI tooling (agents, skills, instructions, prompts) are **CONFIGURATION**, not documentation. Use `TC-####` for improvements or `FR-####` for new capabilities.
 
 ### Step 1.4: Group Changes Intelligently
 
@@ -150,11 +158,11 @@ For **each issue created**, execute these steps in order:
 ### Step 3.1: Ensure Clean Starting Point
 
 ```bash
-# Checkout development branch
-git checkout v{version}/development
+# Checkout main branch
+git checkout main
 
 # Pull latest
-git pull origin v{version}/development
+git pull origin main
 ```
 
 ### Step 3.2: Create Feature Branch
@@ -206,7 +214,7 @@ git push -u origin feature/FR-####-short-description
 
 # Create PR
 gh pr create \
-  --base v{version}/development \
+  --base main \
   --title "[PREFIX-####] PR Title matching issue" \
   --body "## Summary
 
@@ -305,11 +313,11 @@ Repeat Phases 3-5 for **every logical group identified** in Phase 1.
 ### Step 6.2: Final Cleanup
 
 ```bash
-# Return to development branch
-git checkout v{version}/development
+# Return to main branch
+git checkout main
 
 # Pull all merged changes
-git pull origin v{version}/development
+git pull origin main
 
 # Verify clean working directory
 git status
@@ -325,8 +333,7 @@ Generate a comprehensive summary:
 ## ✅ Git Chaos Organized Successfully
 
 **Repository**: [repo-name]
-**Version**: {version}
-**Target Branch**: v{version}/development
+**Target Branch**: main
 **Execution Time**: [start] → [end]
 
 ---
@@ -361,15 +368,15 @@ Generate a comprehensive summary:
 
 ### PRs Merged
 
-1. **#[pr]** → `v{version}/development` (squash merged)
-2. **#[pr]** → `v{version}/development` (squash merged)
+1. **#[pr]** → `main` (squash merged)
+2. **#[pr]** → `main` (squash merged)
 
 ---
 
 ### Repository State
 
 - **Working Directory**: Clean ✅
-- **Current Branch**: `v{version}/development`
+- **Current Branch**: `main`
 - **All Changes**: Organized, tracked, and merged
 
 ---
@@ -396,7 +403,7 @@ Generate a comprehensive summary:
 - ✅ Use 4-digit zero-padded issue numbers (e.g., FR-0042)
 - ✅ Create conventional commits with proper type, scope, and body
 - ✅ Wait for CI/CD checks before merging
-- ✅ Target `v{version}/development` branch for all PRs
+- ✅ Target `main` branch for all PRs
 - ✅ Verify issue closure after merge
 - ✅ Provide detailed final report
 
@@ -407,7 +414,7 @@ Generate a comprehensive summary:
 - ❌ Skip CI/CD checks
 - ❌ Commit secrets, credentials, or sensitive data
 - ❌ Merge failing PRs without explicit user approval
-- ❌ Modify the development branch directly (always use feature branches)
+- ❌ Modify the main branch directly (always use feature branches)
 
 ### ON ERROR
 
@@ -426,7 +433,7 @@ Before reporting completion, verify:
 - [ ] All issues follow proper naming conventions with correct IDs
 - [ ] Each issue has its own feature branch
 - [ ] All commits follow conventional commit format
-- [ ] All PRs target `v{version}/development`
+- [ ] All PRs target `main`
 - [ ] All CI/CD checks passed (or failures reported)
 - [ ] All PRs successfully merged
 - [ ] All related issues closed

@@ -1,6 +1,6 @@
 ---
-description: 'Documentation and content creation standards'
-applyTo: '**/*.md'
+description: 'Documentation and content creation standards for regular markdown files (not agents, skills, instructions, or prompts)'
+applyTo: '**/docs/**/*.md, **/README.md, **/CHANGELOG.md, **/CONTRIBUTING.md, **/SUPPORT.md, **/SECURITY.md, **/CODE_OF_CONDUCT.md'
 ---
 
 ## Markdown Content Rules
