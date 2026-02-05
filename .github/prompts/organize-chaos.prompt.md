@@ -58,20 +58,22 @@ For **every modified, added, or deleted file**:
 
 ### Step 1.3b: Apply File Type Classification Rules (CRITICAL)
 
-**⚠️ BEFORE assigning Documentation (DC) type, apply these mandatory rules:**
+**⚠️ BEFORE assigning type or area labels, apply these mandatory rules:**
 
-| If file matches... | Then type is... | NEVER use |
-|--------------------|-----------------|----------|
-| `.github/**/*.agent.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
-| `.github/**/*.instructions.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
-| `.github/**/SKILL.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
-| `.github/**/*.prompt.md` | Technical Chore (TC) or Feature (FR) | ~~DC~~ |
-| `.github/**/*.yml` (non-workflow) | Technical Chore (TC) | ~~DC~~ |
-| `.github/workflows/**` | Infrastructure (IN) | ~~DC~~ |
-| `docs/**/*.md` | Documentation (DC) | ✓ Correct |
-| `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md` | Documentation (DC) | ✓ Correct |
+| If file matches... | Then type is... | Area Label | NEVER use |
+|--------------------|-----------------|------------|----------|
+| `.github/**/*.agent.md` | Technical Chore (TC) or Feature (FR) | `area:ai` | ~~DC~~, ~~`area:docs`~~ |
+| `.github/**/*.instructions.md` | Technical Chore (TC) or Feature (FR) | `area:ai` | ~~DC~~, ~~`area:docs`~~ |
+| `.github/**/SKILL.md` | Technical Chore (TC) or Feature (FR) | `area:ai` | ~~DC~~, ~~`area:docs`~~ |
+| `.github/**/*.prompt.md` | Technical Chore (TC) or Feature (FR) | `area:ai` | ~~DC~~, ~~`area:docs`~~ |
+| `.github/**/*.yml` (non-workflow) | Technical Chore (TC) | `area:ai` | ~~DC~~, ~~`area:docs`~~ |
+| `.github/workflows/**` | Infrastructure (IN) | `area:infra` | ~~DC~~, ~~`area:docs`~~ |
+| `docs/**/*.md` | Documentation (DC) | `area:docs` | ✓ Correct |
+| `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md` | Documentation (DC) | `area:docs` | ✓ Correct |
 
 **Rule**: Files in `.github/` that configure AI tooling (agents, skills, instructions, prompts) are **CONFIGURATION**, not documentation. Use `TC-####` for improvements or `FR-####` for new capabilities.
+
+**CRITICAL**: The `area:*` label is based on FILE LOCATION, not content description. A file about "documentation safety" in `.github/` gets `area:ai`, NOT `area:docs`.
 
 ### Step 1.4: Group Changes Intelligently
 

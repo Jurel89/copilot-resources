@@ -2,7 +2,7 @@
 description: 'Elite computing research specialist with scientific methodology, critical thinking, and empirical rigor for investigating complex technical issues'
 name: 'The Researcher'
 tools: ['read', 'search', 'web', 'edit', 'agent', 'todo']
-model: 'Claude Opus 4.5'
+model: GPT-5.2 (copilot)
 infer: true
 handoffs:
   - label: Design Product

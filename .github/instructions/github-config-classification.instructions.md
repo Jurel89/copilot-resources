@@ -26,30 +26,30 @@ Misclassification causes:
 
 ## Classification Matrix
 
-| File Pattern | What It Is | Issue Type | Label | NEVER |
-|--------------|------------|------------|-------|-------|
-| `*.agent.md` | AI agent definition | TC or FR | `type:chore` or `type:feature` | `type:docs`, `DC-####` |
-| `*.instructions.md` | Copilot instruction rules | TC or FR | `type:chore` or `type:feature` | `type:docs`, `DC-####` |
-| `SKILL.md` | Copilot skill definition | TC or FR | `type:chore` or `type:feature` | `type:docs`, `DC-####` |
-| `*.prompt.md` | Reusable prompt template | TC or FR | `type:chore` or `type:feature` | `type:docs`, `DC-####` |
-| `workflows/*.yml` | CI/CD pipeline | IN | `type:ci` | `type:docs`, `DC-####` |
-| `actions/*` | GitHub Action config | IN | `type:ci` | `type:docs`, `DC-####` |
-| `labels.yml` | Label taxonomy config | TC | `type:chore` | `type:docs`, `DC-####` |
-| `issue-types.yml` | Issue type taxonomy | TC | `type:chore` | `type:docs`, `DC-####` |
+| File Pattern | What It Is | Issue Type | Type Label | Area Label | NEVER |
+|--------------|------------|------------|------------|------------|-------|
+| `*.agent.md` | AI agent definition | TC or FR | `type:chore` or `type:feature` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
+| `*.instructions.md` | Copilot instruction rules | TC or FR | `type:chore` or `type:feature` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
+| `SKILL.md` | Copilot skill definition | TC or FR | `type:chore` or `type:feature` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
+| `*.prompt.md` | Reusable prompt template | TC or FR | `type:chore` or `type:feature` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
+| `workflows/*.yml` | CI/CD pipeline | IN | `type:ci` | `area:infra` | `type:docs`, `area:docs`, `DC-####` |
+| `actions/*` | GitHub Action config | IN | `type:ci` | `area:infra` | `type:docs`, `area:docs`, `DC-####` |
+| `labels.yml` | Label taxonomy config | TC | `type:chore` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
+| `issue-types.yml` | Issue type taxonomy | TC | `type:chore` | `area:ai` | `type:docs`, `area:docs`, `DC-####` |
 
 ## When TO Use Documentation Type
 
-Use `DC-####` and `type:docs` **ONLY** for:
+Use `DC-####`, `type:docs`, and `area:docs` **ONLY** for:
 
-| Pattern | Why It's Documentation |
-|---------|------------------------|
-| `docs/**/*.md` | Actual documentation directory |
-| `README.md` | Project/package overview for humans |
-| `CHANGELOG.md` | Release notes for humans |
-| `CONTRIBUTING.md` | Contributor guide for humans |
-| `SECURITY.md` | Security policy for humans |
-| `CODE_OF_CONDUCT.md` | Community guidelines for humans |
-| API reference docs | Technical docs for humans |
+| Pattern | Why It's Documentation | Labels |
+|---------|------------------------|--------|
+| `docs/**/*.md` | Actual documentation directory | `type:docs`, `area:docs` |
+| `README.md` | Project/package overview for humans | `type:docs`, `area:docs` |
+| `CHANGELOG.md` | Release notes for humans | `type:docs`, `area:docs` |
+| `CONTRIBUTING.md` | Contributor guide for humans | `type:docs`, `area:docs` |
+| `SECURITY.md` | Security policy for humans | `type:docs`, `area:docs` |
+| `CODE_OF_CONDUCT.md` | Community guidelines for humans | `type:docs`, `area:docs` |
+| API reference docs | Technical docs for humans | `type:docs`, `area:docs` |
 
 ## Decision Flowchart
 
@@ -71,32 +71,33 @@ Is the file in .github/?
 
 ### ✅ CORRECT Classification
 
-| Change | Issue ID | Label | Why |
-|--------|----------|-------|-----|
-| Update `the-researcher.agent.md` | `TC-0045` | `type:chore` | AI agent config |
-| Add new `code-review.prompt.md` | `FR-0078` | `type:feature` | New AI capability |
-| Fix typo in `python.instructions.md` | `TC-0046` | `type:chore` | Config maintenance |
-| Refactor `github-labels/SKILL.md` | `TC-0047` | `type:chore` | Skill improvement |
-| Add `ci.yml` workflow | `IN-0023` | `type:ci` | CI/CD infrastructure |
-| Update `docs/guides/getting-started.md` | `DC-0035` | `type:docs` | Actual documentation |
-| Add API examples to `README.md` | `DC-0036` | `type:docs` | Actual documentation |
+| Change | Issue ID | Labels | Why |
+|--------|----------|--------|-----|
+| Update `the-researcher.agent.md` | `TC-0045` | `type:chore`, `area:ai` | AI agent config |
+| Add new `code-review.prompt.md` | `FR-0078` | `type:feature`, `area:ai` | New AI capability |
+| Fix typo in `python.instructions.md` | `TC-0046` | `type:chore`, `area:ai` | Config maintenance |
+| Refactor `github-labels/SKILL.md` | `TC-0047` | `type:chore`, `area:ai` | Skill improvement |
+| Add `ci.yml` workflow | `IN-0023` | `type:ci`, `area:infra` | CI/CD infrastructure |
+| Update `docs/guides/getting-started.md` | `DC-0035` | `type:docs`, `area:docs` | Actual documentation |
+| Add API examples to `README.md` | `DC-0036` | `type:docs`, `area:docs` | Actual documentation |
 
 ### ❌ INCORRECT Classification (Don't Do This)
 
 | Change | WRONG | CORRECT | Why |
 |--------|-------|---------|-----|
-| Update `the-researcher.agent.md` | `DC-0045`, `type:docs` | `TC-0045`, `type:chore` | Agent files are config |
-| Add `validation.instructions.md` | `DC-0046`, `type:docs` | `FR-0079`, `type:feature` | Instruction files are config |
-| Refactor `SKILL.md` | `DC-0047`, `type:docs` | `TC-0048`, `type:chore` | Skills are config |
+| Update `the-researcher.agent.md` | `DC-0045`, `type:docs`, `area:docs` | `TC-0045`, `type:chore`, `area:ai` | Agent files are config |
+| Add `validation.instructions.md` | `DC-0046`, `type:docs`, `area:docs` | `FR-0079`, `type:feature`, `area:ai` | Instruction files are config |
+| Refactor `SKILL.md` | `DC-0047`, `type:docs`, `area:docs` | `TC-0048`, `type:chore`, `area:ai` | Skills are config |
 
 ## Enforcement
 
 When creating issues or applying labels for `.github/` files:
 
 1. **STOP** before automatically using "documentation"
-2. **CHECK** this classification matrix
-3. **APPLY** the correct type based on file pattern
-4. **VERIFY** you haven't used `DC-####` or `type:docs` for config files
+2. **CHECK** this classification matrix for BOTH type AND area
+3. **APPLY** the correct `type:*` label based on file pattern
+4. **APPLY** the correct `area:*` label based on file location (`area:ai` for `.github/` config, `area:docs` for actual docs)
+5. **VERIFY** you haven't used `DC-####`, `type:docs`, or `area:docs` for config files
 
 ## Related Skills
 

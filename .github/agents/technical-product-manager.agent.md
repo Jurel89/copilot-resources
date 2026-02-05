@@ -2,7 +2,7 @@
 description: 'Senior Technical Product Manager who transforms user requirements into precise, production-grade technical specifications with standardized requirement IDs and traceable labels'
 name: 'Technical Product Manager'
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'azure-mcp/search', 'todo']
-model: 'Claude Opus 4.5'
+model: Claude Opus 4.6 (copilot)
 infer: true
 handoffs:
   - label: Create GitHub Issues

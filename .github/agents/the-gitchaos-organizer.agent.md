@@ -92,25 +92,27 @@ Your mission is to ensure every logical change gets:
 
 ## ⚠️ FILE TYPE CLASSIFICATION (CRITICAL)
 
-**You MUST apply these rules when determining issue type. This overrides any heuristics based on file extension.**
+**You MUST apply these rules when determining issue type AND area. This overrides any heuristics based on file extension.**
 
-| File Pattern | Issue Type | Label | NEVER Use |
-|--------------|------------|-------|----------|
-| `.github/**/*.agent.md` | TC or FR | `type:chore` or `type:feature` | ~~`type:docs`~~ |
-| `.github/**/*.instructions.md` | TC or FR | `type:chore` or `type:feature` | ~~`type:docs`~~ |
-| `.github/**/SKILL.md` | TC or FR | `type:chore` or `type:feature` | ~~`type:docs`~~ |
-| `.github/**/*.prompt.md` | TC or FR | `type:chore` or `type:feature` | ~~`type:docs`~~ |
-| `.github/**/*.yml` (config) | TC | `type:chore` | ~~`type:docs`~~ |
-| `.github/workflows/**` | IN | `type:ci` | ~~`type:docs`~~ |
-| `docs/**/*.md` | DC | `type:docs` | ✓ Correct |
-| `README.md`, `CHANGELOG.md` | DC | `type:docs` | ✓ Correct |
+| File Pattern | Issue Type | Type Label | Area Label | NEVER Use |
+|--------------|------------|------------|------------|----------|
+| `.github/**/*.agent.md` | TC or FR | `type:chore` or `type:feature` | `area:ai` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `.github/**/*.instructions.md` | TC or FR | `type:chore` or `type:feature` | `area:ai` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `.github/**/SKILL.md` | TC or FR | `type:chore` or `type:feature` | `area:ai` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `.github/**/*.prompt.md` | TC or FR | `type:chore` or `type:feature` | `area:ai` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `.github/**/*.yml` (config) | TC | `type:chore` | `area:ai` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `.github/workflows/**` | IN | `type:ci` | `area:infra` | ~~`type:docs`~~, ~~`area:docs`~~ |
+| `docs/**/*.md` | DC | `type:docs` | `area:docs` | ✓ Correct |
+| `README.md`, `CHANGELOG.md` | DC | `type:docs` | `area:docs` | ✓ Correct |
 
 **WHY**: LLMs default to "documentation" when they see `.md` files. Files in `.github/` that configure AI tooling are **configuration/infrastructure**, not documentation. This rule prevents misclassification.
 
 **Decision Logic**:
-1. Is the file in `.github/`? → Check the table above
-2. Does it configure AI behavior (agent, skill, instruction, prompt)? → Use TC or FR
-3. Is it actual human-readable documentation (guides, README, API docs)? → Use DC
+1. Is the file in `.github/`? → Check the table above for BOTH type AND area labels
+2. Does it configure AI behavior (agent, skill, instruction, prompt)? → Use TC or FR + `area:ai`
+3. Is it actual human-readable documentation (guides, README, API docs)? → Use DC + `area:docs`
+
+**CRITICAL**: The `area:*` label must match the file location, NOT the content description. A file about "documentation safety" in `.github/` gets `area:ai`, not `area:docs`.
 
 ---
 
