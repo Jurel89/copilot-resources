@@ -216,19 +216,24 @@ Before applying labels, verify:
 
 ## Special File Type Classifications
 
-When changes involve special markdown files in `.github/`, classify them correctly:
+When changes involve special markdown files in `.github/`, classify BOTH type AND area correctly:
 
-| File Type | Pattern | Correct Type | Reasoning |
-|-----------|---------|--------------|-----------|
-| Agent definitions | `*.agent.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
-| Skill definitions | `SKILL.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
-| Instruction files | `*.instructions.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
-| Prompt files | `*.prompt.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
-| Workflow files | `.github/workflows/*.yml` | `type:ci` | CI/CD configuration |
-| Action configs | `.github/actions/*` | `type:ci` | CI/CD configuration |
-| Documentation | `docs/**/*.md`, `README.md` | `type:docs` | Actual documentation |
+| File Type | Pattern | Type Label | Area Label | Reasoning |
+|-----------|---------|------------|------------|-----------|
+| Agent definitions | `*.agent.md` | `type:feature` or `type:chore` | `area:ai` | Configuration/tooling, not docs |
+| Skill definitions | `SKILL.md` | `type:feature` or `type:chore` | `area:ai` | Configuration/tooling, not docs |
+| Instruction files | `*.instructions.md` | `type:feature` or `type:chore` | `area:ai` | Configuration/tooling, not docs |
+| Prompt files | `*.prompt.md` | `type:feature` or `type:chore` | `area:ai` | Configuration/tooling, not docs |
+| Config files | `labels.yml`, `issue-types.yml` | `type:chore` | `area:ai` | AI/tooling configuration |
+| Workflow files | `.github/workflows/*.yml` | `type:ci` | `area:infra` | CI/CD infrastructure |
+| Action configs | `.github/actions/*` | `type:ci` | `area:infra` | CI/CD infrastructure |
+| Documentation | `docs/**/*.md`, `README.md` | `type:docs` | `area:docs` | Actual documentation |
 
-**Rule of Thumb**: If it's in `.github/` and affects how tools/AI work, it's `type:chore` or `type:feature`, NOT `type:docs`.
+**Rule of Thumb**: 
+- **Type label** = WHAT kind of work (feature, chore, docs, ci)
+- **Area label** = WHERE the files are located (`area:ai` for `.github/` config, `area:docs` for actual docs)
+
+**CRITICAL**: The `area:*` label is based on FILE LOCATION, not content description. A file about "heredoc safety" in `.github/instructions/` gets `area:ai`, NOT `area:docs`.
 
 ## Troubleshooting
 

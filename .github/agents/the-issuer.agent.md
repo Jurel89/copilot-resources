@@ -2,7 +2,7 @@
 description: 'Transforms technical requirements into well-documented GitHub issues with full context, proper labels, and traceable IDs. Specialized in creating complete, actionable issues from TRD specifications.'
 name: 'The Issuer'
 tools: ['read', 'search', 'execute', 'edit']
-model: 'Claude Sonnet 4.5'
+model: GPT-5 mini (copilot)
 infer: true
 handoffs:
   - label: Implement Issues

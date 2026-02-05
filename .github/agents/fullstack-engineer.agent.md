@@ -2,6 +2,7 @@
 name: 'Full Stack Engineer'
 description: 'Precision-focused full-stack developer that picks issues, creates branches, implements features, and drives PRs to merge with rigorous verification'
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web/fetch', 'agent', 'azure-mcp/search', 'todo']
+model:  Claude Opus 4.6 (copilot)
 handoffs:
   - label: Test Implementation
     agent: QA Frontend Tester

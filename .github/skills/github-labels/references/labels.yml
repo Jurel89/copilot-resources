@@ -1,883 +1,478 @@
-# references/labels.yml
-# =============================================================================
-# CANONICAL LABEL TAXONOMY (Repository-Agnostic)
-# =============================================================================
-#
-# PURPOSE:
-#   Defines the ONLY allowed labels for GitHub issues and pull requests.
-#   AI agents MUST use labels from this file. Creating labels outside this
-#   taxonomy is STRICTLY PROHIBITED.
-#
-# USAGE RULES FOR AI AGENTS:
-#   1. ALWAYS check this file before suggesting or applying labels
-#   2. NEVER create, invent, or suggest labels not defined here
-#   3. Match user intent to the closest existing label
-#   4. If no label fits, explain why and suggest using the closest match
-#   5. Use the exact 'name' value when creating/applying labels
-#   6. Use the exact 'color' value (without #) for visual consistency
-#
-# CONVENTIONS:
-#   - Namespaces: type:, area:, status:, priority:, impact:, effort:, risk:,
-#                 lifecycle:, platform:, compliance:, domain:, release:, contrib:
-#   - Labels are lowercase with colons as namespace separators
-#   - Keep labels stable; prefer adding area:* or domain:* over new namespaces
-#   - One issue should have: 1 type, 1 priority, 0-2 area, 0-2 status,
-#     optional effort/impact/risk, optional domain/release
-#
-# COLOR PALETTE RATIONALE:
-#   - type:bug/security = red tones (danger, attention)
-#   - type:feature/enhancement = blue/purple tones (growth, improvement)
-#   - type:chore/refactor/docs = gray/neutral tones (maintenance)
-#   - priority:p0/p1 = red/orange (urgency)
-#   - status:blocked = red (warning)
-#   - status:ready = green (go)
-#   - effort = yellow/orange gradient (sizing)
-#   - area = teal/cyan tones (location)
-#   - domain = purple tones (context)
-#
-# =============================================================================
-
 version: 2
 owner: taxonomy
 updated: 2026-02-05
-schema_version: "1.0"
-
-# -----------------------------------------------------------------------------
-# RULES: Enforcement guidelines for label usage
-# -----------------------------------------------------------------------------
+schema_version: '1.0'
 rules:
-  # Labels that MUST be present on every issue (enforced by automation)
   required_groups_default:
-    - type
-    - priority
-
-  # Labels that SHOULD be present when applicable (suggested by automation)
+  - type
+  - priority
   recommended_groups_default:
-    - area
-    - status
-
-  # Maximum labels per issue to prevent label overload
+  - area
+  - status
   max_labels_per_issue: 9
-
-  # When exclusive=true, only ONE label from that group can be applied
-  # When exclusive=false, MULTIPLE labels from that group can be applied
-
-# -----------------------------------------------------------------------------
-# GROUPS: Label definitions organized by namespace
-# -----------------------------------------------------------------------------
 groups:
-
-  # ===========================================================================
-  # TYPE: Categorizes the nature of the work (REQUIRED, EXCLUSIVE)
-  # ===========================================================================
-  - key: type
-    description: >
-      Classifies WHAT KIND of work this issue represents. Every issue MUST have
-      exactly ONE type label. This is the primary categorization that determines
-      how the issue flows through the development process.
-    exclusive: true
-    labels:
-      - name: "type:bug"
-        color: "d73a4a"  # Red - signals broken/error
-        description: >
-          Something is BROKEN, INCORRECT, or behaving UNEXPECTEDLY. Use for:
-          runtime errors, crashes, incorrect outputs, broken functionality,
-          regression from previous working state, data corruption, or logic
-          errors. DO NOT use for: missing features (use type:feature), slow
-          performance (use type:performance), or code style issues (use type:refactor).
-        examples:
-          - "Login button throws 500 error on click"
-          - "API returns null instead of empty array"
-          - "Dark mode CSS breaks on Safari"
-
-      - name: "type:feature"
-        color: "0075ca"  # Blue - signals new capability
-        description: >
-          A NET-NEW user-facing CAPABILITY that does not exist today. Use for:
-          new API endpoints, new UI screens, new commands, new integrations,
-          or new functionality that adds value. DO NOT use for: improving existing
-          features (use type:enhancement), internal refactoring (use type:refactor),
-          or documentation (use type:docs).
-        examples:
-          - "Add OAuth2 login support"
-          - "Create dashboard analytics view"
-          - "Implement export-to-PDF feature"
-
-      - name: "type:enhancement"
-        color: "a2eeef"  # Light cyan - signals improvement
-        description: >
-          IMPROVES an EXISTING feature without adding net-new functionality.
-          Use for: UX improvements, better error messages, additional options
-          to existing commands, accessibility improvements, or quality-of-life
-          changes. DO NOT use for: new capabilities (use type:feature), fixing
-          bugs (use type:bug), or performance optimization (use type:performance).
-        examples:
-          - "Add confirmation dialog before delete"
-          - "Improve error message clarity"
-          - "Add keyboard shortcuts to existing modal"
-
-      - name: "type:refactor"
-        color: "7057ff"  # Purple - signals internal change
-        description: >
-          INTERNAL code restructuring with NO user-visible behavior change.
-          Use for: code reorganization, improving code readability, reducing
-          technical debt, splitting large files, renaming for clarity, or
-          applying design patterns. The feature/output MUST remain identical.
-          DO NOT use for: bug fixes (use type:bug), performance changes
-          (use type:performance), or adding features (use type:feature).
-        examples:
-          - "Extract validation logic into utility module"
-          - "Rename misleading variable names"
-          - "Split monolithic service into smaller classes"
-
-      - name: "type:chore"
-        color: "bfd4f2"  # Light gray-blue - signals maintenance
-        description: >
-          ROUTINE MAINTENANCE that doesn't change application behavior.
-          Use for: dependency updates, config file cleanup, removing dead code,
-          updating .gitignore, license updates, or minor housekeeping tasks.
-          DO NOT use for: code restructuring (use type:refactor), CI changes
-          (use type:ci), or documentation updates (use type:docs).
-        examples:
-          - "Update lodash from 4.17.20 to 4.17.21"
-          - "Remove unused import statements"
-          - "Update copyright year in LICENSE"
-
-      - name: "type:docs"
-        color: "0e8a16"  # Green - signals documentation
-        description: >
-          Changes ONLY to documentation, with NO code changes. Use for:
-          README updates, API documentation, code comments, JSDoc/docstrings,
-          architecture diagrams, user guides, or changelog entries.
-          DO NOT use for: (1) code changes that also update docs (use the primary
-          type and mention docs in description), (2) agent files (*.agent.md),
-          (3) skill files (SKILL.md), (4) instruction files (*.instructions.md),
-          or (5) prompt files (*.prompt.md). These are configuration, not documentation.
-        examples:
-          - "Add API usage examples to README"
-          - "Document new environment variables"
-          - "Fix typos in user guide"
-
-      - name: "type:test"
-        color: "fbca04"  # Yellow - signals testing
-        description: >
-          Changes ONLY to test code, with NO production code changes. Use for:
-          adding new test cases, improving test coverage, fixing flaky tests,
-          test infrastructure changes, or test data updates.
-          DO NOT use for: bug fixes that include test updates (use type:bug).
-        examples:
-          - "Add unit tests for UserService"
-          - "Fix flaky integration test timeout"
-          - "Add E2E tests for checkout flow"
-
-      - name: "type:ci"
-        color: "5319e7"  # Dark purple - signals automation
-        description: >
-          Changes to CI/CD PIPELINES, build automation, or release processes.
-          Use for: GitHub Actions workflows, Jenkins pipelines, build scripts,
-          release automation, deployment configuration, or artifact publishing.
-          DO NOT use for: infrastructure changes (use area:infra).
-        examples:
-          - "Add automated version bumping to release workflow"
-          - "Fix Docker build caching in CI"
-          - "Add code coverage reporting to PR checks"
-
-      - name: "type:security"
-        color: "b60205"  # Dark red - signals security
-        description: >
-          SECURITY-related changes addressing vulnerabilities or hardening.
-          Use for: CVE fixes, authentication/authorization improvements,
-          input validation, secret handling, security headers, or compliance
-          requirements. ALWAYS use for security-related issues regardless of
-          other aspects (security takes precedence).
-        examples:
-          - "Fix SQL injection vulnerability in search"
-          - "Add rate limiting to login endpoint"
-          - "Rotate compromised API keys"
-
-      - name: "type:performance"
-        color: "d4c5f9"  # Light purple - signals optimization
-        description: >
-          Changes focused on SPEED, EFFICIENCY, or RESOURCE optimization.
-          Use for: query optimization, caching implementation, memory leak
-          fixes, reducing bundle size, improving load times, or cost reduction.
-          DO NOT use for: bugs causing slowness (use type:bug if it's broken).
-        examples:
-          - "Add Redis caching for user profiles"
-          - "Optimize N+1 query in orders list"
-          - "Reduce Docker image size by 40%"
-
-      - name: "type:research"
-        color: "c5def5"  # Light blue - signals exploration
-        description: >
-          EXPLORATORY work where the outcome is KNOWLEDGE, not code. Use for:
-          spikes, proof-of-concepts, evaluating libraries, architecture
-          exploration, or feasibility studies. The deliverable is a decision
-          or document, not production code.
-        examples:
-          - "Evaluate GraphQL vs REST for new API"
-          - "Spike: Can we use WebSockets for real-time updates?"
-          - "Research GDPR compliance requirements"
-
-      - name: "type:proposal"
-        color: "f9d0c4"  # Light salmon - signals decision
-        description: >
-          A FORMAL PROPOSAL requiring team discussion and decision. Use for:
-          RFCs, ADRs, architecture decisions, process changes, or significant
-          technical choices. Must include options, tradeoffs, and recommendation.
-        examples:
-          - "RFC: Migrate from REST to GraphQL"
-          - "ADR: Choose between PostgreSQL and MongoDB"
-          - "Proposal: Adopt trunk-based development"
-
-  # ===========================================================================
-  # AREA: Identifies the system component affected (RECOMMENDED, NON-EXCLUSIVE)
-  # ===========================================================================
-  - key: area
-    description: >
-      Identifies WHERE in the system this change applies. Helps route issues
-      to the right team/person and enables filtering by component. Multiple
-      area labels can be applied if the change spans components.
-    exclusive: false
-    labels:
-      - name: "area:frontend"
-        color: "1d76db"  # Blue
-        description: >
-          Changes to USER INTERFACE, web client, or design system. Includes:
-          React/Vue/Angular components, CSS/styling, HTML templates, browser
-          JavaScript, accessibility (a11y), responsive design, or design tokens.
-        examples:
-          - "Fix button alignment on mobile"
-          - "Update color palette in design system"
-
-      - name: "area:backend"
-        color: "0052cc"  # Dark blue
-        description: >
-          Changes to SERVER-SIDE application logic, APIs, or services.
-          Includes: REST/GraphQL endpoints, business logic, controllers,
-          middleware, background jobs, or server-side validation.
-        examples:
-          - "Add pagination to /users endpoint"
-          - "Implement order processing service"
-
-      - name: "area:cli"
-        color: "006b75"  # Teal
-        description: >
-          Changes to COMMAND-LINE INTERFACE tools. Includes: CLI commands,
-          argument parsing, terminal output formatting, shell completions,
-          or interactive prompts.
-        examples:
-          - "Add --verbose flag to deploy command"
-          - "Improve error messages in CLI output"
-
-      - name: "area:sdk"
-        color: "0e8a16"  # Green
-        description: >
-          Changes to CLIENT LIBRARIES or SDKs published for external use.
-          Includes: API client libraries, language bindings, SDK documentation,
-          or SDK-specific tooling.
-        examples:
-          - "Add TypeScript types to JavaScript SDK"
-          - "Publish Python SDK to PyPI"
-
-      - name: "area:infra"
-        color: "5319e7"  # Purple
-        description: >
-          Changes to INFRASTRUCTURE components. Includes: cloud resources
-          (AWS/GCP/Azure), Terraform/Pulumi, networking, DNS, load balancers,
-          databases, or hosting configuration.
-        examples:
-          - "Add auto-scaling policy to ECS service"
-          - "Configure CDN for static assets"
-
-      - name: "area:gitops"
-        color: "7057ff"  # Light purple
-        description: >
-          Changes to GITOPS workflows and declarative operations. Includes:
-          Argo CD, Flux, environment definitions, deployment manifests,
-          or repository-as-infrastructure patterns.
-        examples:
-          - "Add staging environment to GitOps repo"
-          - "Configure Argo CD application sync"
-
-      - name: "area:devex"
-        color: "1d7a8c"  # Teal-blue
-        description: >
-          Changes to DEVELOPER EXPERIENCE tooling. Includes: local development
-          setup, dev containers, Makefiles, development scripts, IDE configs,
-          or onboarding documentation.
-        examples:
-          - "Add Docker Compose for local development"
-          - "Improve VS Code recommended extensions"
-
-      - name: "area:ci-cd"
-        color: "6f42c1"  # Purple
-        description: >
-          Changes to CI/CD PIPELINES and automation. Includes: GitHub Actions,
-          Jenkins, build scripts, test automation, deployment pipelines,
-          or release processes.
-        examples:
-          - "Add PR preview deployments"
-          - "Speed up CI build with caching"
-
-      - name: "area:observability"
-        color: "e99695"  # Light red
-        description: >
-          Changes to MONITORING and OBSERVABILITY systems. Includes: logging,
-          metrics, tracing, alerting, dashboards, APM integration, or
-          error tracking (Sentry, Datadog, etc.).
-        examples:
-          - "Add Prometheus metrics endpoint"
-          - "Configure PagerDuty alerting"
-
-      - name: "area:security"
-        color: "b60205"  # Dark red
-        description: >
-          Changes to SECURITY CONTROLS and mechanisms. Includes: authentication,
-          authorization, RBAC, secrets management, security headers, WAF rules,
-          or audit logging. Note: For security vulnerabilities, use type:security.
-        examples:
-          - "Implement SAML SSO integration"
-          - "Add API key rotation mechanism"
-
-      - name: "area:data"
-        color: "fbca04"  # Yellow
-        description: >
-          Changes to DATA systems and pipelines. Includes: databases, data
-          pipelines, ETL/ELT processes, data migrations, schemas, data
-          warehouses, or analytics infrastructure.
-        examples:
-          - "Add database migration for new table"
-          - "Configure Airflow DAG for daily ETL"
-
-      - name: "area:ai"
-        color: "d4c5f9"  # Light purple
-        description: >
-          Changes to AI/ML systems and components. Includes: LLM prompts,
-          AI agents, embeddings, vector stores, model fine-tuning, evaluation
-          pipelines, or AI-powered features.
-        examples:
-          - "Improve prompt engineering for chat agent"
-          - "Add embedding generation pipeline"
-
-      - name: "area:docs"
-        color: "0e8a16"  # Green
-        description: >
-          Changes to DOCUMENTATION systems (not content). Includes: docs site
-          infrastructure, documentation generators, ADR templates, or
-          documentation tooling. For doc content, use type:docs.
-        examples:
-          - "Upgrade Docusaurus to v3"
-          - "Add ADR template to docs repo"
-
-  # ===========================================================================
-  # DOMAIN: Cross-cutting product/domain context (OPTIONAL, NON-EXCLUSIVE)
-  # ===========================================================================
-  - key: domain
-    description: >
-      Identifies the PRODUCT or DOMAIN context for cross-repo tracking.
-      Use sparingly and keep this list small and stable. Helps track work
-      across multiple repositories for the same product/initiative.
-    exclusive: false
-    labels:
-      - name: "domain:copilot"
-        color: "9b59b6"  # Purple
-        description: >
-          Related to GITHUB COPILOT customizations. Includes: agents, prompts,
-          skills, instruction files, evaluations, or Copilot-powered features.
-        examples:
-          - "Add new Copilot agent for code review"
-          - "Update prompt templates for better output"
-
-      - name: "domain:gitops"
-        color: "8e44ad"  # Dark purple
-        description: >
-          Related to GITOPS practices and infrastructure-as-code. Includes:
-          GitOps workflows, declarative deployments, or environment management.
-        examples:
-          - "Configure GitOps for new microservice"
-          - "Add environment promotion workflow"
-
-      - name: "domain:homelab"
-        color: "a569bd"  # Medium purple
-        description: >
-          Related to HOME LAB infrastructure. Includes: NAS, home networking,
-          self-hosted services, Proxmox, or personal infrastructure projects.
-        examples:
-          - "Configure Proxmox backup schedule"
-          - "Add new service to home lab stack"
-
-      - name: "domain:databricks"
-        color: "7d3c98"  # Deep purple
-        description: >
-          Related to DATABRICKS platform. Includes: Spark jobs, Unity Catalog,
-          Delta Lake, data engineering, or Databricks-specific tooling.
-        examples:
-          - "Add Delta Lake table optimization"
-          - "Configure Unity Catalog permissions"
-
-      - name: "domain:platform"
-        color: "6c3483"  # Dark purple
-        description: >
-          Related to PLATFORM ENGINEERING initiatives. Includes: shared
-          tooling, internal developer platforms, or cross-cutting foundations.
-        examples:
-          - "Add shared logging library"
-          - "Create internal CLI tool"
-
-      - name: "domain:security"
-        color: "b60205"  # Dark red
-        description: >
-          Related to SECURITY initiatives and posture. Includes: threat
-          modeling, vulnerability management, security reviews, or compliance.
-        examples:
-          - "Complete threat model for payment service"
-          - "Track CVE remediation across repos"
-
-      - name: "domain:docs"
-        color: "0e8a16"  # Green
-        description: >
-          Related to DOCUMENTATION initiatives. Includes: handbooks, team
-          guides, runbooks, or documentation-focused projects.
-        examples:
-          - "Create onboarding handbook"
-          - "Document incident response process"
-
-  # ===========================================================================
-  # STATUS: Workflow state and blockers (RECOMMENDED, NON-EXCLUSIVE)
-  # ===========================================================================
-  - key: status
-    description: >
-      Tracks the CURRENT STATE of the issue in the workflow. Helps identify
-      bottlenecks and items needing attention. Some status labels can coexist
-      (e.g., in-progress + blocked).
-    exclusive: false
-    labels:
-      - name: "status:triage"
-        color: "d4c5f9"  # Light purple
-        description: >
-          Issue is NEW and needs INITIAL CLASSIFICATION. Apply to incoming
-          issues that haven't been reviewed. Remove after assigning type,
-          priority, and other relevant labels.
-        action: "Review issue, assign labels, then remove this status"
-
-      - name: "status:needs-info"
-        color: "fbca04"  # Yellow - attention needed
-        description: >
-          Issue is WAITING for additional INFORMATION from the reporter or
-          stakeholder. Cannot proceed until questions are answered or
-          details are provided.
-        action: "Comment with specific questions, wait for response"
-
-      - name: "status:blocked"
-        color: "b60205"  # Red - blocked
-        description: >
-          Issue CANNOT PROCEED due to external dependency or blocker.
-          Must have a comment explaining what is blocking and link to
-          the blocking issue/PR if applicable.
-        action: "Document blocker in comments, link blocking issues"
-
-      - name: "status:ready"
-        color: "0e8a16"  # Green - ready to go
-        description: >
-          Issue is FULLY SPECIFIED and ready to be picked up for work.
-          Has all required information, acceptance criteria, and labels.
-          Safe to assign and start working.
-        action: "Issue can be assigned and worked on"
-
-      - name: "status:in-progress"
-        color: "1d76db"  # Blue - active work
-        description: >
-          Issue is ACTIVELY being worked on. Should have an assignee.
-          If work pauses, either remove this status or add status:blocked
-          with explanation.
-        action: "Work is underway, check for linked PR"
-
-      - name: "status:review"
-        color: "7057ff"  # Purple - needs review
-        description: >
-          Issue work is COMPLETE and waiting for REVIEW. Typically has
-          a linked PR awaiting code review, or needs stakeholder approval.
-        action: "Review linked PR or provide feedback"
-
-      - name: "status:waiting"
-        color: "c5def5"  # Light blue - waiting
-        description: >
-          Issue is WAITING on external action or event that is not a blocker.
-          Examples: waiting for scheduled deployment, external API availability,
-          or planned future date.
-        action: "Document what we're waiting for in comments"
-
-      - name: "status:stale"
-        color: "bfd4f2"  # Gray - stale
-        description: >
-          Issue has had NO ACTIVITY for extended period (typically 30+ days).
-          May be auto-applied by stale bot. If no response, issue may be closed.
-        action: "Comment to keep open, or close if no longer relevant"
-
-      - name: "status:wontfix"
-        color: "ffffff"  # White with dark border
-        description: >
-          Issue is INTENTIONALLY not being addressed. The team has decided
-          not to fix or implement this. Must have a comment explaining the
-          rationale for the decision.
-        action: "Close issue after adding explanation comment"
-
-      - name: "status:duplicate"
-        color: "cfd3d7"  # Light gray
-        description: >
-          Issue is a DUPLICATE of another issue. Must link to the original
-          issue before closing. Transfer any valuable discussion to original.
-        action: "Link to original issue, then close"
-
-  # ===========================================================================
-  # PRIORITY: Scheduling urgency (REQUIRED, EXCLUSIVE)
-  # ===========================================================================
-  - key: priority
-    description: >
-      Indicates URGENCY and scheduling priority. Every issue MUST have exactly
-      ONE priority label. Priority determines order of work within a sprint
-      or backlog.
-    exclusive: true
-    labels:
-      - name: "priority:p0"
-        color: "b60205"  # Red - critical
-        description: >
-          CRITICAL: Production outage, data loss, security breach, or
-          complete feature failure affecting all users. Drop everything
-          and fix immediately. Escalate if not resolved within hours.
-        sla: "Respond within 1 hour, resolve within 4 hours"
-        examples:
-          - "Site is down for all users"
-          - "Customer data leaked"
-          - "Payment processing failing"
-
-      - name: "priority:p1"
-        color: "d93f0b"  # Orange - high
-        description: >
-          HIGH: Significant user impact or important deadline at risk.
-          Should be addressed within the current sprint. May affect subset
-          of users or degrade functionality without total failure.
-        sla: "Respond within 4 hours, resolve within 2 business days"
-        examples:
-          - "Checkout fails for 10% of users"
-          - "Feature launch deadline at risk"
-          - "Key integration broken"
-
-      - name: "priority:p2"
-        color: "fbca04"  # Yellow - medium
-        description: >
-          MEDIUM: Normal priority for planned work. Important but not urgent.
-          Schedule in upcoming sprint based on capacity. Default priority
-          for most feature work and enhancements.
-        sla: "Address within current or next sprint"
-        examples:
-          - "Add requested dashboard filter"
-          - "Improve form validation UX"
-          - "Update deprecated dependency"
-
-      - name: "priority:p3"
-        color: "0e8a16"  # Green - low
-        description: >
-          LOW: Nice-to-have improvements with minimal impact. Address when
-          convenient or as filler work. May be deprioritized indefinitely
-          if higher priorities exist.
-        sla: "Address when convenient, may be deprioritized"
-        examples:
-          - "Minor typo in error message"
-          - "Small code cleanup suggestion"
-          - "Optional optimization idea"
-
-  # ===========================================================================
-  # IMPACT: Scope of effect (OPTIONAL, EXCLUSIVE)
-  # ===========================================================================
-  - key: impact
-    description: >
-      Describes WHO or WHAT is affected by this issue or change. Helps
-      assess risk and prioritization. Consider both breadth (how many)
-      and depth (how severely) of impact.
-    exclusive: true
-    labels:
-      - name: "impact:high"
-        color: "b60205"  # Red
-        description: >
-          Affects MANY USERS or CORE FUNCTIONALITY. Examples: impacts all
-          users, affects critical path (checkout, login), or could cause
-          data loss/corruption. Warrants extra review and testing.
-        examples:
-          - "Changes to authentication flow"
-          - "Database schema migration"
-          - "Core API endpoint modification"
-
-      - name: "impact:medium"
-        color: "fbca04"  # Yellow
-        description: >
-          Affects SOME USERS or IMPORTANT workflows. Examples: impacts
-          specific user segment, affects frequently-used feature, or
-          changes important but non-critical functionality.
-        examples:
-          - "Admin dashboard changes"
-          - "Report generation updates"
-          - "Settings page modification"
-
-      - name: "impact:low"
-        color: "0e8a16"  # Green
-        description: >
-          MINIMAL IMPACT or affects edge cases only. Examples: rarely-used
-          feature, affects small user segment, or cosmetic changes. Low
-          risk of significant user disruption.
-        examples:
-          - "Help text update"
-          - "Rarely-used export format"
-          - "Developer-only tooling"
-
-  # ===========================================================================
-  # EFFORT: Size estimation (OPTIONAL, EXCLUSIVE)
-  # ===========================================================================
-  - key: effort
-    description: >
-      ROUGH estimation of work required. Used for sprint planning and
-      capacity management. Relative sizing, not exact hours. When in
-      doubt, estimate higher.
-    exclusive: true
-    labels:
-      - name: "effort:xs"
-        color: "c2e0c6"  # Light green
-        description: >
-          EXTRA SMALL: Trivial change requiring < 1 hour. Examples: typo
-          fixes, config value changes, simple copy updates. Can be done
-          as quick wins or while context switching.
-        estimate: "< 1 hour"
-        examples:
-          - "Fix typo in README"
-          - "Update environment variable value"
-
-      - name: "effort:s"
-        color: "0e8a16"  # Green
-        description: >
-          SMALL: Straightforward change requiring 1-4 hours. Examples:
-          simple bug fixes, minor feature tweaks, adding basic tests.
-          Can typically complete in one focused session.
-        estimate: "1-4 hours (half day)"
-        examples:
-          - "Add input validation"
-          - "Fix CSS alignment issue"
-
-      - name: "effort:m"
-        color: "fbca04"  # Yellow
-        description: >
-          MEDIUM: Moderate complexity requiring 4-16 hours (1-2 days).
-          Examples: new API endpoint, component implementation, or
-          multi-file refactoring. Requires some design thought.
-        estimate: "4-16 hours (1-2 days)"
-        examples:
-          - "Implement new API endpoint with tests"
-          - "Add feature flag system"
-
-      - name: "effort:l"
-        color: "d93f0b"  # Orange
-        description: >
-          LARGE: Significant work requiring 2-4 days. Examples: new
-          feature implementation, major refactoring, or complex bug
-          investigation. Consider breaking into smaller issues.
-        estimate: "2-4 days"
-        examples:
-          - "Implement OAuth integration"
-          - "Migrate to new database schema"
-
-      - name: "effort:xl"
-        color: "b60205"  # Red
-        description: >
-          EXTRA LARGE: Major initiative requiring >= 1 week. STRONGLY
-          consider breaking into smaller issues. Epics and large features
-          should be decomposed. If it can't be split, treat as epic.
-        estimate: ">= 1 week"
-        warning: "Consider splitting into smaller issues"
-        examples:
-          - "Complete authentication rewrite"
-          - "New major product feature"
-
-  # ===========================================================================
-  # RISK: Change risk assessment (OPTIONAL, EXCLUSIVE)
-  # ===========================================================================
-  - key: risk
-    description: >
-      Assesses the RISK LEVEL of this change. Helps determine review
-      requirements and deployment strategy. Consider blast radius,
-      reversibility, and complexity.
-    exclusive: true
-    labels:
-      - name: "risk:high"
-        color: "b60205"  # Red
-        description: >
-          HIGH RISK of regression or incidents. Examples: core system
-          changes, database migrations, security-sensitive code, or
-          changes with broad blast radius. Requires extra review,
-          staged rollout, and rollback plan.
-        requirements:
-          - "Multiple reviewers required"
-          - "Staged deployment (canary/progressive)"
-          - "Documented rollback plan"
-          - "Enhanced monitoring during rollout"
-
-      - name: "risk:medium"
-        color: "fbca04"  # Yellow
-        description: >
-          MODERATE RISK with some complexity. Examples: changes touching
-          multiple components, dependency updates, or new integrations.
-          Standard review process but with extra attention.
-        requirements:
-          - "Standard review process"
-          - "Testing in staging environment"
-          - "Basic rollback plan"
-
-      - name: "risk:low"
-        color: "0e8a16"  # Green
-        description: >
-          LOW RISK, isolated change. Examples: documentation updates,
-          minor bug fixes, cosmetic changes, or well-tested simple
-          modifications. Standard deployment process is sufficient.
-        requirements:
-          - "Standard review and deployment"
-
-  # ===========================================================================
-  # COMPLIANCE: Governance and regulatory (OPTIONAL, NON-EXCLUSIVE)
-  # ===========================================================================
-  - key: compliance
-    description: >
-      Tags issues with COMPLIANCE or GOVERNANCE concerns. Use for tracking
-      regulatory requirements, policy adherence, or audit-relevant changes.
-    exclusive: false
-    labels:
-      - name: "compliance:license"
-        color: "d4c5f9"  # Light purple
-        description: >
-          Related to SOFTWARE LICENSING. Examples: license compliance,
-          attribution requirements, dependency license audits, or
-          open-source contribution policies.
-        examples:
-          - "Add license headers to source files"
-          - "Audit dependency licenses for GPL"
-
-      - name: "compliance:privacy"
-        color: "e99695"  # Light red
-        description: >
-          Related to DATA PRIVACY and protection. Examples: PII handling,
-          data retention policies, GDPR/CCPA compliance, or consent
-          management.
-        examples:
-          - "Implement data retention policy"
-          - "Add GDPR data export feature"
-
-      - name: "compliance:policy"
-        color: "c5def5"  # Light blue
-        description: >
-          Related to INTERNAL POLICIES and governance. Examples: code
-          review requirements, security policies, approval workflows,
-          or organizational standards.
-        examples:
-          - "Implement required approval workflow"
-          - "Add policy check to CI pipeline"
-
-  # ===========================================================================
-  # RELEASE: Versioning semantics (OPTIONAL, EXCLUSIVE)
-  # ===========================================================================
-  - key: release
-    description: >
-      Indicates RELEASE SEMANTICS for changelog and versioning. Follows
-      semantic versioning principles. Used by automation to determine
-      version bumps and changelog sections.
-    exclusive: true
-    labels:
-      - name: "release:patch"
-        color: "0e8a16"  # Green
-        description: >
-          PATCH release (x.x.PATCH). Backwards-compatible BUG FIXES only.
-          No new features, no breaking changes. Safe for immediate release.
-          Default if no release label is specified.
-        semver: "x.x.+1"
-        changelog_section: "Bug Fixes"
-
-      - name: "release:minor"
-        color: "1d76db"  # Blue
-        description: >
-          MINOR release (x.MINOR.0). Backwards-compatible NEW FEATURES.
-          Adds functionality without breaking existing behavior. May
-          include deprecation notices.
-        semver: "x.+1.0"
-        changelog_section: "Features"
-
-      - name: "release:major"
-        color: "b60205"  # Red
-        description: >
-          MAJOR release (MAJOR.0.0). Contains BREAKING CHANGES that require
-          migration or adaptation. Must include migration guide. Typically
-          batched with other major changes.
-        semver: "+1.0.0"
-        changelog_section: "Breaking Changes"
-        requirements:
-          - "Migration guide required"
-          - "Deprecation notices in prior release"
-
-  # ===========================================================================
-  # CONTRIB: Community contribution markers (OPTIONAL, EXCLUSIVE)
-  # ===========================================================================
-  - key: contrib
-    description: >
-      Markers for COMMUNITY CONTRIBUTIONS and onboarding. Helps new
-      contributors find suitable issues and signals contribution status.
-    exclusive: false
-    labels:
-      - name: "contrib:good-first-issue"
-        color: "7057ff"  # Purple - welcoming
-        description: >
-          IDEAL for NEW CONTRIBUTORS. Well-documented issue with clear
-          scope, limited complexity, and good mentorship opportunity.
-          Should have clear acceptance criteria and context.
-        requirements:
-          - "Clear problem statement"
-          - "Defined acceptance criteria"
-          - "Limited scope (effort:xs or effort:s)"
-          - "Mentorship available if needed"
-
-      - name: "contrib:help-wanted"
-        color: "008672"  # Teal
-        description: >
-          Issue would benefit from COMMUNITY HELP. Open for contributions
-          but may require more context than good-first-issue. Team is
-          available to provide guidance.
-        action: "Contributors can claim by commenting"
-
-# -----------------------------------------------------------------------------
-# NOTES: Usage guidelines and conventions
-# -----------------------------------------------------------------------------
+- key: type
+  description: 'Classifies WHAT KIND of work this issue represents. Every issue MUST have exactly ONE type label. This is the primary categorization that determines how the issue flows through the development process.'
+  exclusive: true
+  labels:
+  - name: type:bug
+    color: d73a4a
+    description: Something is BROKEN, INCORRECT, or behaving UNEXPECTEDLY. Use for runtime errors, crashes, incorrect
+    examples:
+    - Login button throws 500 error on click
+    - API returns null instead of empty array
+    - Dark mode CSS breaks on Safari
+  - name: type:feature
+    color: 0075ca
+    description: Net-new user-facing capability
+    examples:
+    - Add OAuth2 login support
+    - Create dashboard analytics view
+    - Implement export-to-PDF feature
+  - name: type:enhancement
+    color: a2eeef
+    description: IMPROVES EXISTING feature. UX improvements, better errors, options, accessibility, quality-of-life
+    examples:
+    - Add confirmation dialog before delete
+    - Improve error message clarity
+    - Add keyboard shortcuts to existing modal
+  - name: type:refactor
+    color: 7057ff
+    description: INTERNAL code restructuring. NO user-visible change. Reorganization, readability, technical debt
+    examples:
+    - Extract validation logic into utility module
+    - Rename misleading variable names
+    - Split monolithic service into smaller classes
+  - name: type:chore
+    color: bfd4f2
+    description: Routine maintenance that doesn't change application behavior
+    examples:
+    - Update lodash from 4.17.20 to 4.17.21
+    - Remove unused import statements
+    - Update copyright year in LICENSE
+  - name: type:docs
+    color: 0e8a16
+    description: Documentation ONLY. README, API docs, comments, JSDoc, diagrams, guides. NO code changes
+    examples:
+    - Add API usage examples to README
+    - Document new environment variables
+    - Fix typos in user guide
+  - name: type:test
+    color: fbca04
+    description: Test code ONLY. Add tests, improve coverage, fix flaky tests. NO production code changes
+    examples:
+    - Add unit tests for UserService
+    - Fix flaky integration test timeout
+    - Add E2E tests for checkout flow
+  - name: type:ci
+    color: 5319e7
+    description: CI/CD pipelines, build automation, release processes. GitHub Actions, Jenkins, build scripts
+    examples:
+    - Add automated version bumping to release workflow
+    - Fix Docker build caching in CI
+    - Add code coverage reporting to PR checks
+  - name: type:security
+    color: b60205
+    description: SECURITY fixes. CVE, auth, authorization, input validation, secrets, security headers, compliance
+    examples:
+    - Fix SQL injection vulnerability in search
+    - Add rate limiting to login endpoint
+    - Rotate compromised API keys
+  - name: type:performance
+    color: d4c5f9
+    description: Speed, efficiency, resource optimization. Query optimization, caching, memory leaks, bundle size
+    examples:
+    - Add Redis caching for user profiles
+    - Optimize N+1 query in orders list
+    - Reduce Docker image size by 40%
+  - name: type:research
+    color: c5def5
+    description: EXPLORATORY work. Outcome is KNOWLEDGE. Spikes, POCs, evaluating libraries, architecture study
+    examples:
+    - Evaluate GraphQL vs REST for new API
+    - 'Spike: Can we use WebSockets for real-time updates?'
+    - Research GDPR compliance requirements
+  - name: type:proposal
+    color: f9d0c4
+    description: FORMAL PROPOSAL. RFCs, ADRs, architecture decisions, process changes. Requires team discussion
+    examples:
+    - 'RFC: Migrate from REST to GraphQL'
+    - 'ADR: Choose between PostgreSQL and MongoDB'
+    - 'Proposal: Adopt trunk-based development'
+- key: area
+  description: 'Identifies WHERE in the system this change applies. Helps route issues to the right team/person and enables filtering by component. Multiple area labels can be applied if the change spans components.'
+  exclusive: false
+  labels:
+  - name: area:frontend
+    color: 1d76db
+    description: USER INTERFACE, web client, design system. React/Vue/Angular, CSS, HTML, browser JS, a11y, design
+    examples:
+    - Fix button alignment on mobile
+    - Update color palette in design system
+  - name: area:backend
+    color: 0052cc
+    description: SERVER-SIDE logic, APIs, services. REST/GraphQL endpoints, business logic, controllers, middleware
+    examples:
+    - Add pagination to /users endpoint
+    - Implement order processing service
+  - name: area:cli
+    color: 006b75
+    description: COMMAND-LINE tools. CLI commands, argument parsing, terminal output, shell completions, prompts
+    examples:
+    - Add --verbose flag to deploy command
+    - Improve error messages in CLI output
+  - name: area:sdk
+    color: 0e8a16
+    description: CLIENT LIBRARIES/SDKs. API client libraries, language bindings, SDK documentation, SDK tooling
+    examples:
+    - Add TypeScript types to JavaScript SDK
+    - Publish Python SDK to PyPI
+  - name: area:infra
+    color: 5319e7
+    description: INFRASTRUCTURE. Cloud resources AWS/GCP/Azure, Terraform/Pulumi, networking, DNS, databases
+    examples:
+    - Add auto-scaling policy to ECS service
+    - Configure CDN for static assets
+  - name: area:gitops
+    color: 7057ff
+    description: GITOPS workflows. Argo CD, Flux, environment definitions, deployment manifests, repo-as-infra
+    examples:
+    - Add staging environment to GitOps repo
+    - Configure Argo CD application sync
+  - name: area:devex
+    color: 1d7a8c
+    description: DEVELOPER EXPERIENCE. Local dev setup, dev containers, Makefiles, dev scripts, IDE configs
+    examples:
+    - Add Docker Compose for local development
+    - Improve VS Code recommended extensions
+  - name: area:ci-cd
+    color: 6f42c1
+    description: CI/CD PIPELINES. GitHub Actions, Jenkins, build scripts, test automation, deployment pipelines
+    examples:
+    - Add PR preview deployments
+    - Speed up CI build with caching
+  - name: area:observability
+    color: e99695
+    description: MONITORING. Logging, metrics, tracing, alerting, dashboards, APM integration, error tracking
+    examples:
+    - Add Prometheus metrics endpoint
+    - Configure PagerDuty alerting
+  - name: area:security
+    color: b60205
+    description: SECURITY CONTROLS. Authentication, authorization, RBAC, secrets mgmt, security headers, WAF, audit
+    examples:
+    - Implement SAML SSO integration
+    - Add API key rotation mechanism
+  - name: area:data
+    color: fbca04
+    description: DATA systems. Databases, data pipelines, ETL/ELT, migrations, schemas, data warehouses, analytics
+    examples:
+    - Add database migration for new table
+    - Configure Airflow DAG for daily ETL
+  - name: area:ai
+    color: d4c5f9
+    description: AI/ML systems. LLM prompts, agents, embeddings, vector stores, fine-tuning, AI-powered features
+    examples:
+    - Improve prompt engineering for chat agent
+    - Add embedding generation pipeline
+  - name: area:docs
+    color: 0e8a16
+    description: DOCUMENTATION systems (not content). Docs site infra, generators, ADR templates, doc tooling
+    examples:
+    - Upgrade Docusaurus to v3
+    - Add ADR template to docs repo
+- key: domain
+  description: 'Identifies the PRODUCT or DOMAIN context for cross-repo tracking. Use sparingly and keep this list small and stable. Helps track work across multiple repositories for the same product/initiative.'
+  exclusive: false
+  labels:
+  - name: domain:copilot
+    color: 9b59b6
+    description: GITHUB COPILOT customizations. Agents, prompts, skills, instruction files, evaluations, Copilot
+    examples:
+    - Add new Copilot agent for code review
+    - Update prompt templates for better output
+  - name: domain:gitops
+    color: 8e44ad
+    description: GITOPS practices. Infrastructure-as-code, GitOps workflows, declarative deployments, env mgmt
+    examples:
+    - Configure GitOps for new microservice
+    - Add environment promotion workflow
+  - name: domain:homelab
+    color: a569bd
+    description: HOME LAB infrastructure. NAS, home networking, self-hosted services, Proxmox, personal projects
+    examples:
+    - Configure Proxmox backup schedule
+    - Add new service to home lab stack
+  - name: domain:databricks
+    color: 7d3c98
+    description: DATABRICKS platform. Spark jobs, Unity Catalog, Delta Lake, data engineering, Databricks tools
+    examples:
+    - Add Delta Lake table optimization
+    - Configure Unity Catalog permissions
+  - name: domain:platform
+    color: 6c3483
+    description: PLATFORM ENGINEERING. Shared tooling, internal developer platforms, cross-cutting foundations
+    examples:
+    - Add shared logging library
+    - Create internal CLI tool
+  - name: domain:security
+    color: b60205
+    description: SECURITY initiatives. Threat modeling, vulnerability mgmt, security reviews, compliance tracking
+    examples:
+    - Complete threat model for payment service
+    - Track CVE remediation across repos
+  - name: domain:docs
+    color: 0e8a16
+    description: DOCUMENTATION initiatives. Handbooks, team guides, runbooks, documentation-focused projects
+    examples:
+    - Create onboarding handbook
+    - Document incident response process
+- key: status
+  description: 'Tracks the CURRENT STATE of the issue in the workflow. Helps identify bottlenecks and items needing attention. Some status labels can coexist (e.g., in-progress + blocked).'
+  exclusive: false
+  labels:
+  - name: status:triage
+    color: d4c5f9
+    description: NEW issue needs INITIAL CLASSIFICATION. Review, assign labels, then remove this status
+    action: Review issue, assign labels, then remove this status
+  - name: status:needs-info
+    color: fbca04
+    description: WAITING for additional INFORMATION. Cannot proceed until questions answered or details provided
+    action: Comment with specific questions, wait for response
+  - name: status:blocked
+    color: b60205
+    description: CANNOT PROCEED due to external dependency. Must have comment explaining blocker with links
+    action: Document blocker in comments, link blocking issues
+  - name: status:ready
+    color: 0e8a16
+    description: FULLY SPECIFIED and ready to be picked up. Has all info, acceptance criteria, and labels
+    action: Issue can be assigned and worked on
+  - name: status:in-progress
+    color: 1d76db
+    description: ACTIVELY being worked on. Should have assignee. Remove if work pauses or add blocked status
+    action: Work is underway, check for linked PR
+  - name: status:review
+    color: 7057ff
+    description: Work COMPLETE, waiting for REVIEW. Has linked PR awaiting code review or stakeholder approval
+    action: Review linked PR or provide feedback
+  - name: status:waiting
+    color: c5def5
+    description: WAITING on external action/event (not blocker). Scheduled deployment, API availability, future date
+    action: Document what we're waiting for in comments
+  - name: status:stale
+    color: bfd4f2
+    description: NO ACTIVITY for 30+ days. May be auto-applied by bot. Comment to keep open or close if irrelevant
+    action: Comment to keep open, or close if no longer relevant
+  - name: status:wontfix
+    color: ffffff
+    description: INTENTIONALLY not being addressed. Team decided not to fix. Must have comment explaining rationale
+    action: Close issue after adding explanation comment
+  - name: status:duplicate
+    color: cfd3d7
+    description: DUPLICATE of another issue. Must link to original issue before closing. Transfer valuable discuss
+    action: Link to original issue, then close
+- key: priority
+  description: 'Indicates URGENCY and scheduling priority. Every issue MUST have exactly ONE priority label. Priority determines order of work within a sprint or backlog.'
+  exclusive: true
+  labels:
+  - name: priority:p0
+    color: b60205
+    description: 'CRITICAL: Production outage, data loss, security breach. Drop everything. Resolve within 4 hours'
+    sla: Respond within 1 hour, resolve within 4 hours
+    examples:
+    - Site is down for all users
+    - Customer data leaked
+    - Payment processing failing
+  - name: priority:p1
+    color: d93f0b
+    description: 'HIGH: Significant user impact or important deadline at risk. Address within current sprint'
+    sla: Respond within 4 hours, resolve within 2 business days
+    examples:
+    - Checkout fails for 10% of users
+    - Feature launch deadline at risk
+    - Key integration broken
+  - name: priority:p2
+    color: fbca04
+    description: 'MEDIUM: Normal priority. Important not urgent. Default for features. Address current/next sprint'
+    sla: Address within current or next sprint
+    examples:
+    - Add requested dashboard filter
+    - Improve form validation UX
+    - Update deprecated dependency
+  - name: priority:p3
+    color: 0e8a16
+    description: 'LOW: Nice-to-have, minimal impact. Address when convenient. May be deprioritized indefinitely'
+    sla: Address when convenient, may be deprioritized
+    examples:
+    - Minor typo in error message
+    - Small code cleanup suggestion
+    - Optional optimization idea
+- key: impact
+  description: 'Describes WHO or WHAT is affected by this issue or change. Helps assess risk and prioritization. Consider both breadth (how many) and depth (how severely) of impact.'
+  exclusive: true
+  labels:
+  - name: impact:high
+    color: b60205
+    description: Affects MANY USERS or CORE FUNCTIONALITY. All users, critical path, or data loss risk. Extra review
+    examples:
+    - Changes to authentication flow
+    - Database schema migration
+    - Core API endpoint modification
+  - name: impact:medium
+    color: fbca04
+    description: Affects SOME USERS or IMPORTANT workflows. Specific segment, frequently-used but non-critical
+    examples:
+    - Admin dashboard changes
+    - Report generation updates
+    - Settings page modification
+  - name: impact:low
+    color: 0e8a16
+    description: MINIMAL IMPACT or edge cases only. Rarely-used feature, small segment, cosmetic changes
+    examples:
+    - Help text update
+    - Rarely-used export format
+    - Developer-only tooling
+- key: effort
+  description: 'ROUGH estimation of work required. Used for sprint planning and capacity management. Relative sizing, not exact hours. When in doubt, estimate higher.'
+  exclusive: true
+  labels:
+  - name: effort:xs
+    color: c2e0c6
+    description: 'EXTRA SMALL: Trivial change < 1 hour. Typo fixes, config value changes, simple copy updates'
+    estimate: < 1 hour
+    examples:
+    - Fix typo in README
+    - Update environment variable value
+  - name: effort:s
+    color: 0e8a16
+    description: 'SMALL: Straightforward 1-4 hours. Simple bug fixes, minor feature tweaks, adding basic tests'
+    estimate: 1-4 hours (half day)
+    examples:
+    - Add input validation
+    - Fix CSS alignment issue
+  - name: effort:m
+    color: fbca04
+    description: 'MEDIUM: Moderate complexity 4-16 hours (1-2 days). New API endpoint, component, multi-file refactor'
+    estimate: 4-16 hours (1-2 days)
+    examples:
+    - Implement new API endpoint with tests
+    - Add feature flag system
+  - name: effort:l
+    color: d93f0b
+    description: 'LARGE: Significant work 2-4 days. New feature, major refactoring, complex bug. Consider splitting'
+    estimate: 2-4 days
+    examples:
+    - Implement OAuth integration
+    - Migrate to new database schema
+  - name: effort:xl
+    color: b60205
+    description: 'EXTRA LARGE: >= 1 week. STRONGLY consider breaking into smaller issues. Treat as epic if can''t split'
+    estimate: '>= 1 week'
+    warning: Consider splitting into smaller issues
+    examples:
+    - Complete authentication rewrite
+    - New major product feature
+- key: risk
+  description: 'Assesses the RISK LEVEL of this change. Helps determine review requirements and deployment strategy. Consider blast radius, reversibility, and complexity.'
+  exclusive: true
+  labels:
+  - name: risk:high
+    color: b60205
+    description: HIGH RISK of regression. Core system, DB migrations, security code. Extra review, staged rollout
+    requirements:
+    - Multiple reviewers required
+    - Staged deployment (canary/progressive)
+    - Documented rollback plan
+    - Enhanced monitoring during rollout
+  - name: risk:medium
+    color: fbca04
+    description: MODERATE RISK. Multi-component changes, dependency updates, integrations. Standard review process
+    requirements:
+    - Standard review process
+    - Testing in staging environment
+    - Basic rollback plan
+  - name: risk:low
+    color: 0e8a16
+    description: LOW RISK, isolated change. Documentation, minor fixes, cosmetic changes. Standard deployment
+    requirements:
+    - Standard review and deployment
+- key: compliance
+  description: 'Tags issues with COMPLIANCE or GOVERNANCE concerns. Use for tracking regulatory requirements, policy adherence, or audit-relevant changes.'
+  exclusive: false
+  labels:
+  - name: compliance:license
+    color: d4c5f9
+    description: SOFTWARE LICENSING. License compliance, attribution, dependency license audits, OSS policies
+    examples:
+    - Add license headers to source files
+    - Audit dependency licenses for GPL
+  - name: compliance:privacy
+    color: e99695
+    description: DATA PRIVACY protection. PII handling, retention policies, GDPR/CCPA compliance, consent mgmt
+    examples:
+    - Implement data retention policy
+    - Add GDPR data export feature
+  - name: compliance:policy
+    color: c5def5
+    description: INTERNAL POLICIES and governance. Code review reqs, security policies, approval workflows, standards
+    examples:
+    - Implement required approval workflow
+    - Add policy check to CI pipeline
+- key: release
+  description: 'Indicates RELEASE SEMANTICS for changelog and versioning. Follows semantic versioning principles. Used by automation to determine version bumps and changelog sections.'
+  exclusive: true
+  labels:
+  - name: release:patch
+    color: 0e8a16
+    description: PATCH release (x.x.PATCH). Backwards-compatible BUG FIXES only. No features, no breaking changes
+    semver: x.x.+1
+    changelog_section: Bug Fixes
+  - name: release:minor
+    color: 1d76db
+    description: MINOR release (x.MINOR.0). Backwards-compatible NEW FEATURES. Adds functionality, no breaking
+    semver: x.+1.0
+    changelog_section: Features
+  - name: release:major
+    color: b60205
+    description: MAJOR release (MAJOR.0.0). BREAKING CHANGES. Migration guide required. Deprecation notices needed
+    semver: +1.0.0
+    changelog_section: Breaking Changes
+    requirements:
+    - Migration guide required
+    - Deprecation notices in prior release
+- key: contrib
+  description: 'Markers for COMMUNITY CONTRIBUTIONS and onboarding. Helps new contributors find suitable issues and signals contribution status.'
+  exclusive: false
+  labels:
+  - name: contrib:good-first-issue
+    color: 7057ff
+    description: IDEAL for NEW CONTRIBUTORS. Well-documented, clear scope, limited complexity, good mentorship
+    requirements:
+    - Clear problem statement
+    - Defined acceptance criteria
+    - Limited scope (effort:xs or effort:s)
+    - Mentorship available if needed
+  - name: contrib:help-wanted
+    color: 008672
+    description: Would benefit from COMMUNITY HELP. Open for contributions, team available for guidance
+    action: Contributors can claim by commenting
 notes:
-  - "Keep label names lowercase and stable; avoid renaming existing labels."
-  - "Prefer area:* and domain:* over inventing project-specific labels."
-  - "If a new label is needed, propose it via a 'Label Change Proposal' issue."
-  - "For changelog automation: if release:* is missing, infer from conventional commits or default to release:patch."
-  - "AI agents MUST use labels from this file; creating new labels is prohibited."
-  - "Colors are standardized to ensure visual consistency across repositories."
-  - "When applying labels, check the 'exclusive' flag to avoid conflicts."
-
-# -----------------------------------------------------------------------------
-# AI AGENT INSTRUCTIONS
-# -----------------------------------------------------------------------------
+- Keep label names lowercase and stable; avoid renaming existing labels.
+- Prefer area:* and domain:* over inventing project-specific labels.
+- If a new label is needed, propose it via a 'Label Change Proposal' issue.
+- 'For changelog automation: if release:* is missing, infer from conventional commits or default to release:patch.'
+- AI agents MUST use labels from this file; creating new labels is prohibited.
+- Colors are standardized to ensure visual consistency across repositories.
+- When applying labels, check the 'exclusive' flag to avoid conflicts.
 ai_instructions:
-  constraint: >
-    You MUST ONLY use labels defined in this taxonomy. NEVER suggest, create,
-    or apply labels that do not exist in this file. If the user requests a
-    label that doesn't exist, explain why and suggest the closest matching
-    label from this taxonomy.
-
+  constraint: 'You MUST ONLY use labels defined in this taxonomy. NEVER suggest, create, or apply labels that do not exist in this file. If the user requests a label that doesn''t exist, explain why and suggest the closest matching label from this taxonomy.'
   matching_priority:
-    - "Match the user's intent to the most specific applicable label"
-    - "Prefer exact namespace matches (type:bug vs generic 'bug')"
-    - "When uncertain between two labels, ask for clarification"
-    - "Apply required labels (type, priority) before optional ones"
-
+  - Match the user's intent to the most specific applicable label
+  - Prefer exact namespace matches (type:bug vs generic 'bug')
+  - When uncertain between two labels, ask for clarification
+  - Apply required labels (type, priority) before optional ones
   validation_steps:
-    - "Verify the label exists in groups[].labels[].name"
-    - "Check exclusive flag before applying multiple from same group"
-    - "Ensure required groups (type, priority) have exactly one label"
-    - "Warn if max_labels_per_issue would be exceeded"
+  - Verify the label exists in groups[].labels[].name
+  - Check exclusive flag before applying multiple from same group
+  - Ensure required groups (type, priority) have exactly one label
+  - Warn if max_labels_per_issue would be exceeded

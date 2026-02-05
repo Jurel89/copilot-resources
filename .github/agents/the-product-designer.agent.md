@@ -2,7 +2,7 @@
 description: 'Visionary Product Designer who transforms raw ideas into ambitious, feature-rich product concepts with innovative capabilities that push boundaries'
 name: 'The Product Designer'
 tools: ['read', 'edit', 'search', 'web', 'todo']
-model: 'Claude Opus 4.5'
+model: GPT-5.2 (copilot)
 infer: true
 handoffs:
   - label: Create Technical Requirements

@@ -2,7 +2,7 @@
 description: 'Documentation specialist creating clear technical docs with diagrams and visual content'
 name: 'The Documenter'
 tools: ['read', 'edit', 'search', 'execute', 'web', 'todo']
-model: Claude Sonnet 4.5
+model: GPT-5.2 (copilot)
 infer: true
 handoffs:
   - label: Research Topic
