@@ -13,6 +13,31 @@ license: Complete terms in LICENSE.txt
 
 Apply consistent, well-defined labels to GitHub issues and pull requests using a **canonical label taxonomy**. This skill ensures labels are standardized across repositories and prevents label sprawl.
 
+## ⛔ MANDATORY PRE-FLIGHT PROTOCOL
+
+> **STOP! Before ANY label operation, you MUST complete this checklist:**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LABEL OPERATION PRE-FLIGHT CHECKLIST (MANDATORY)                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  □ Step 1: READ the taxonomy file                                          │
+│            read_file .github/skills/github-labels/references/labels.yml    │
+│                                                                             │
+│  □ Step 2: SEARCH for matching labels in the loaded file                   │
+│            Look in groups[].labels[].name for exact matches                │
+│                                                                             │
+│  □ Step 3: VALIDATE each label exists before using it                      │
+│            If label NOT found → STOP, suggest closest match                │
+│                                                                             │
+│  □ Step 4: ONLY THEN proceed with gh label create or --label flag          │
+│                                                                             │
+│  ⚠️  SKIPPING ANY STEP = PROTOCOL VIOLATION                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**If you haven't read labels.yml in this session, you CANNOT apply labels.**
+
 ## Critical Constraint
 
 > **⚠️ ABSOLUTE RULE: You MUST NEVER create, suggest, or apply any label that is not defined in [labels.yml](./references/labels.yml).**
@@ -22,6 +47,23 @@ If a user requests a label that doesn't exist:
 1. Explain that the label is not in the approved taxonomy
 2. Suggest the closest matching label(s) from the taxonomy
 3. If no match exists, recommend opening a "Label Change Proposal" issue
+
+## Quick Validation Commands
+
+Before applying ANY label, verify it exists:
+
+```bash
+# List all valid labels (run this to validate your choices)
+grep -E "^\s+- name:" .github/skills/github-labels/references/labels.yml | sed 's/.*name: "\(.*\)"/\1/'
+
+# Search for a specific label
+grep -E "name:.*keyword" .github/skills/github-labels/references/labels.yml
+
+# Check if a specific label exists (returns nothing if not found)
+grep -E 'name: "type:instruction"' .github/skills/github-labels/references/labels.yml
+```
+
+**If grep returns empty → THE LABEL DOES NOT EXIST → DO NOT USE IT**
 
 ## When to Use This Skill
 
