@@ -1,0 +1,105 @@
+# issue-types.yml - Canonical Issue Type Taxonomy
+# RULES: Only use prefixes defined here. Never invent new ones.
+# FORMAT: [PREFIX-####] Title (max 72 chars). IDs are 4-digit, zero-padded, never reused.
+# PROTOCOL: Query existing issues → Find highest ID → Increment → Create
+
+version: 2
+updated: 2026-02-05
+
+rules:
+  id_pattern: "^[A-Z]{2}-[0-9]{4}$"
+  title_pattern: "^\\[[A-Z]{2}-[0-9]{4}\\] .{1,60}$"
+  max_title_length: 72
+  id_range: [1, 9999]
+  reuse_policy: never
+
+issue_types:
+  - prefix: "FR"
+    name: "Feature Request"
+    color: "0075ca"
+    description: "Net-new user-facing capability. New endpoints, screens, commands, integrations."
+    use_when: ["new functionality", "user requests capability that doesn't exist"]
+    not_for: ["improving existing features", "fixing bugs", "performance"]
+    keywords: ["new feature", "add", "implement", "create", "introduce"]
+    example: "[FR-0043] Add dark mode theme support"
+
+  - prefix: "BG"
+    name: "Bug"
+    color: "d73a4a"
+    description: "Non-critical defect. Something broken, incorrect, or unexpected."
+    use_when: ["crashes", "incorrect output", "regression", "broken functionality"]
+    not_for: ["critical production outage (use HF)", "missing feature (use FR)", "slow performance (use PF)"]
+    keywords: ["bug", "broken", "error", "not working", "regression"]
+    example: "[BG-0089] Login fails when SSO is enabled"
+
+  - prefix: "HF"
+    name: "Hotfix"
+    color: "b60205"
+    description: "Critical production issue requiring immediate attention. P0 emergency."
+    use_when: ["production down", "data loss", "security breach", "revenue impact", "SLA breach"]
+    not_for: ["bugs that can wait (use BG)", "gradual performance degradation (use PF)"]
+    keywords: ["critical", "urgent", "production down", "outage", "emergency", "P0"]
+    example: "[HF-0015] Critical: API returns 500 on all requests"
+    requires_postmortem: true
+
+  - prefix: "TC"
+    name: "Technical Chore"
+    color: "7057ff"
+    description: "Internal work with no user-visible change. Tech debt, refactoring, maintenance."
+    use_when: ["code restructuring", "dependency updates", "dead code removal", "test improvements"]
+    not_for: ["adding features (use FR)", "fixing bugs (use BG)", "CI/CD changes (use IN)"]
+    keywords: ["refactor", "tech debt", "cleanup", "maintenance", "update dependencies"]
+    example: "[TC-0023] Refactor authentication module"
+
+  - prefix: "SC"
+    name: "Security"
+    color: "ee0701"
+    description: "Vulnerabilities, compliance, security improvements. Handle sensitive details carefully."
+    use_when: ["CVE patching", "security audit finding", "compliance requirement", "penetration test fix"]
+    not_for: ["active exploitation (use HF + escalate)", "non-security dependency update (use TC)"]
+    keywords: ["security", "vulnerability", "CVE", "compliance", "audit"]
+    example: "[SC-0007] Update dependencies with known CVEs"
+    sensitivity: "Never include exploit details in public issues"
+
+  - prefix: "PF"
+    name: "Performance"
+    color: "fbca04"
+    description: "Optimization work. Latency, throughput, resource efficiency. Requires metrics."
+    use_when: ["slow response times", "high resource usage", "scalability issues", "bottlenecks"]
+    not_for: ["performance causing outage (use HF)", "functional bug causing slowness (use BG)"]
+    keywords: ["performance", "slow", "latency", "optimization", "scalability"]
+    example: "[PF-0011] Optimize database queries for dashboard"
+    requires: ["current metric", "target metric"]
+
+  - prefix: "DC"
+    name: "Documentation"
+    color: "0e8a16"
+    description: "Documentation-only changes. No code modifications. ONLY for actual human documentation."
+    use_when: ["new docs in docs/ folder", "README updates", "API reference updates", "guides/tutorials", "CHANGELOG entries"]
+    not_for:
+      - "docs accompanying code change (include in that issue)"
+      - "*.agent.md files — these are AI configuration, use TC or FR"
+      - "*.instructions.md files — these are AI configuration, use TC or FR"
+      - "SKILL.md files — these are AI configuration, use TC or FR"
+      - "*.prompt.md files — these are AI configuration, use TC or FR"
+      - "any file in .github/ that configures AI/tooling — use TC or FR"
+      - ".github/workflows/ files — use IN (Infrastructure)"
+    keywords: ["documentation", "docs", "README", "guide", "tutorial", "API docs"]
+    example: "[DC-0034] Add API reference for v2 endpoints"
+    valid_paths: ["docs/**", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md"]
+    invalid_paths: [".github/**/*.agent.md", ".github/**/*.instructions.md", ".github/**/SKILL.md", ".github/**/*.prompt.md"]
+
+  - prefix: "IN"
+    name: "Infrastructure"
+    color: "1d76db"
+    description: "CI/CD, deployment, DevOps. Pipelines, environments, monitoring, IaC."
+    use_when: ["pipeline changes", "deployment config", "monitoring setup", "environment provisioning"]
+    not_for: ["application code (use appropriate type)", "security hardening (use SC)"]
+    keywords: ["infrastructure", "CI/CD", "deployment", "pipeline", "DevOps", "terraform"]
+    example: "[IN-0019] Configure staging environment CI/CD"
+
+commands:
+  find_next_id: |
+    PREFIX="XX" && gh issue list --search "$PREFIX-" --state all --limit 500 --json title --jq '.[].title' | grep -oE "$PREFIX-[0-9]+" | sort -t'-' -k2 -n | tail -1 | awk -F'-' -v p="$PREFIX" '{printf "%s-%04d\n", p, $2+1}'
+  check_exists: 'gh issue list --search "PREFIX-NNNN" --state all --json number,title'
+  list_by_prefix: 'gh issue list --search "PREFIX-" --state all --limit 200 --json number,title,state'

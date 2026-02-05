@@ -1,330 +1,236 @@
 # Issue Body Templates
 
-Use these templates when creating issue bodies. Select the appropriate template based on issue type.
+Select template by issue type prefix. Each includes required sections marked with *.
 
-## Feature Request (FR-####)
+---
+
+## FR: Feature Request
 
 ```markdown
-## Summary
+## Summary*
+[One-line description]
 
-[One-line description of the feature]
+## User Story*
+As a **[role]**, I want **[capability]**, so that **[benefit]**.
 
-## User Story
+## Problem Statement
+[Current state and pain points]
 
-As a [persona], I want [capability] so that [benefit].
+## Proposed Solution*
+[How it should work]
 
-## Motivation
-
-[Why is this feature needed? What problem does it solve?]
-
-## Proposed Solution
-
-[How should this feature work?]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Specific, testable criterion]
-- [ ] AC-002: [Specific, testable criterion]
-- [ ] AC-003: [Specific, testable criterion]
+## Acceptance Criteria*
+- [ ] AC-001: [Testable criterion]
+- [ ] AC-002: [Testable criterion]
 
 ## Technical Notes
+[Architecture, API changes, dependencies]
 
-[Implementation guidance, architectural considerations]
-
-## Alternatives Considered
-
-[Other approaches considered and why they weren't chosen]
-
-## Dependencies
-
-[Related requirements or external dependencies]
-
-## Additional Context
-
-[Mockups, examples, or related issues]
+## Out of Scope
+[What this does NOT include]
 ```
 
-## Bug (BG-####)
+---
+
+## BG: Bug
 
 ```markdown
-## Description
+## Summary*
+[One-line bug description]
 
-[Clear description of the bug]
+**Severity**: P1/P2/P3 | **Frequency**: Always/Sometimes/Rarely | **Regression**: Yes/No
 
-## Steps to Reproduce
+## Environment*
+OS: | Browser: | Version: | User Role:
 
-1. [First step]
-2. [Second step]
-3. [And so on...]
+## Steps to Reproduce*
+1. [Step]
+2. [Step]
+3. Observe [error]
 
-## Expected Behavior
+## Expected vs Actual*
+- **Expected**: [Correct behavior]
+- **Actual**: [What happens]
 
-[What should happen]
-
-## Actual Behavior
-
-[What actually happens]
-
-## Environment
-
-- Browser: [e.g., Chrome 120]
-- OS: [e.g., macOS 14.0]
-- Version: [e.g., v1.2.3]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Specific fix verification]
-- [ ] AC-002: [Regression test added]
-
-## Screenshots/Logs
-
-[If applicable]
-
-## Additional Context
-
-[Any other relevant information]
+## Error Details
+```
+[Error message/stack trace]
 ```
 
-## Hotfix (HF-####)
+## Acceptance Criteria*
+- [ ] AC-001: Bug no longer reproducible
+- [ ] AC-002: Regression test added
+```
+
+---
+
+## HF: Hotfix
 
 ```markdown
-## CRITICAL ISSUE
+## 🚨 CRITICAL INCIDENT
 
-**Impact**: [Describe the severity and scope of impact]
-**Affected Users**: [Who is impacted]
-**Timeline**: [When did this start / urgency level]
+| Severity | Status | Started | Impact |
+|----------|--------|---------|--------|
+| P0 | Investigating/Identified/Resolved | YYYY-MM-DD HH:MM UTC | [Who/what affected] |
 
-## Description
+## Problem*
+[What is broken]
 
-[Clear description of the critical issue]
+## Root Cause
+[If known]
 
-## Root Cause (if known)
+## Resolution*
+[Fix approach]
 
-[What caused this issue]
+## Rollback Plan*
+1. [Rollback step]
 
-## Proposed Fix
-
-[Immediate fix approach]
-
-## Steps to Reproduce
-
-1. [First step]
-2. [Second step]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Issue is resolved]
-- [ ] AC-002: [No regression in related functionality]
-- [ ] AC-003: [Monitoring confirms fix]
-
-## Rollback Plan
-
-[If fix fails, how to rollback]
-
-## Post-Mortem
-
-- [ ] Schedule post-mortem after resolution
+## Acceptance Criteria*
+- [ ] AC-001: Service restored
+- [ ] AC-002: Error rate normal for 30min
+- [ ] AC-003: Post-mortem scheduled
 ```
 
-## Technical Chore (TC-####)
+---
+
+## TC: Technical Chore
 
 ```markdown
-## Objective
+## Objective*
+[What needs to be done]
 
-[What needs to be accomplished]
+## Rationale*
+[Why this matters - tech debt impact]
 
-## Rationale
+## Scope
+**In**: [Items] | **Out**: [Items]
 
-[Why this matters - tech debt impact, maintenance burden, etc.]
+## Tasks*
+- [ ] [Task 1]
+- [ ] [Task 2]
 
-## Details
-
-[Detailed description of the work]
-
-## Checklist
-
-- [ ] [Subtask 1]
-- [ ] [Subtask 2]
-- [ ] [Subtask 3]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Specific completion criterion]
-- [ ] AC-002: [Tests pass]
-- [ ] AC-003: [Documentation updated if needed]
-
-## Dependencies
-
-[Any blockers or related work]
-
-## Notes
-
-[Additional context or considerations]
+## Acceptance Criteria*
+- [ ] AC-001: [Criterion]
+- [ ] AC-002: Tests pass
+- [ ] AC-003: No regression
 ```
 
-## Security (SC-####)
+---
+
+## SC: Security
 
 ```markdown
-## Security Issue
+## ⚠️ Security Issue
 
-**Severity**: [Critical / High / Medium / Low]
-**CVE** (if applicable): [CVE-XXXX-XXXXX]
-**CVSS Score** (if applicable): [X.X]
+| Severity | CVE | CVSS | Disclosure |
+|----------|-----|------|------------|
+| Critical/High/Medium/Low | CVE-XXXX-XXXXX | X.X | Private/Public |
 
-## Description
+> ⚠️ Do NOT include exploit details in public issues.
 
-[Description of the security issue - be careful with sensitive details]
+## Summary*
+[Brief description without revealing exploit]
 
-## Impact
+## Impact*
+[What's at risk - data, access, compliance]
 
-[What could happen if exploited]
+## Remediation*
+[Fix approach]
 
-## Affected Components
-
-- [Component 1]
-- [Component 2]
-
-## Remediation
-
-[Proposed fix approach]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Vulnerability is mitigated]
-- [ ] AC-002: [Security scan passes]
-- [ ] AC-003: [No regression in functionality]
-
-## Disclosure
-
-- [ ] Follow responsible disclosure timeline
-- [ ] Notify affected parties if required
+## Acceptance Criteria*
+- [ ] AC-001: Vulnerability mitigated
+- [ ] AC-002: Security scan passes
+- [ ] AC-003: No regression
 ```
 
-## Performance (PF-####)
+---
+
+## PF: Performance
 
 ```markdown
 ## Performance Issue
 
-**Current Metric**: [e.g., p95 latency 800ms]
-**Target Metric**: [e.g., p95 latency <200ms]
-**Affected Area**: [Component, endpoint, feature]
+| Metric | Current | Target |
+|--------|---------|--------|
+| [e.g., p95 latency] | [800ms] | [<200ms] |
 
-## Description
+**Affected**: [Component/endpoint]
 
-[Description of the performance issue]
+## Problem*
+[Current performance and user impact]
 
-## Analysis
+## Root Cause
+[Bottleneck analysis]
 
-[Root cause analysis, profiling results]
+## Proposed Fix*
+[Optimization approach]
 
-## Proposed Optimization
-
-[Approach to improve performance]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Target metric achieved]
-- [ ] AC-002: [No regression in other metrics]
-- [ ] AC-003: [Load test validates improvement]
-
-## Benchmarks
-
-[Before/after comparison methodology]
-
-## Notes
-
-[Additional context]
+## Acceptance Criteria*
+- [ ] AC-001: Target metric achieved
+- [ ] AC-002: No regression in other metrics
+- [ ] AC-003: Load test validates
 ```
 
-## Documentation (DC-####)
+---
+
+## DC: Documentation
 
 ```markdown
 ## Documentation Update
 
-**Type**: [New / Update / Delete]
-**Audience**: [Developers / Users / Operators]
+**Type**: New/Update/Delete | **Audience**: Devs/Users/Ops
 
-## Summary
+## Summary*
+[What documentation is changing]
 
-[What documentation is being added/updated]
+## Content Outline*
+1. [Section]
+2. [Section]
 
-## Motivation
-
-[Why this documentation is needed]
-
-## Content Outline
-
-1. [Section 1]
-2. [Section 2]
-3. [Section 3]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Documentation is accurate]
-- [ ] AC-002: [Examples are working]
-- [ ] AC-003: [Reviewed by subject matter expert]
-
-## Related Resources
-
-[Links to related docs, code, or issues]
+## Acceptance Criteria*
+- [ ] AC-001: Technically accurate
+- [ ] AC-002: Examples tested
+- [ ] AC-003: Reviewed by SME
 ```
 
-## Infrastructure (IN-####)
+---
+
+## IN: Infrastructure
 
 ```markdown
 ## Infrastructure Change
 
-**Environment**: [Production / Staging / Development / All]
-**Change Type**: [CI/CD / Deployment / Monitoring / Scaling]
+| Environment | Type | Risk | Downtime |
+|-------------|------|------|----------|
+| Prod/Staging/Dev | CI-CD/Deploy/Monitor | Low/Med/High | Yes/No |
 
-## Summary
+## Summary*
+[What infrastructure change]
 
-[What infrastructure change is needed]
+## Implementation*
+1. [Step]
+2. [Step]
 
-## Motivation
+## Rollback Plan*
+1. [Rollback step]
 
-[Why this change is needed]
-
-## Implementation Plan
-
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Change is deployed successfully]
-- [ ] AC-002: [Monitoring confirms health]
-- [ ] AC-003: [Runbook updated if needed]
-
-## Rollback Plan
-
-[How to revert if issues arise]
-
-## Dependencies
-
-[Other systems or teams affected]
-
-## Maintenance Window
-
-[If downtime required, specify window]
+## Acceptance Criteria*
+- [ ] AC-001: Change deployed
+- [ ] AC-002: Health checks pass
+- [ ] AC-003: Docs updated
 ```
 
-## Minimal Template
+---
 
-For simple issues when full templates aren't needed:
+## Minimal (Any Type)
 
 ```markdown
-## Description
-
+## Summary*
 [What and why]
 
 ## Tasks
+- [ ] [Task]
 
-- [ ] [Task 1]
-- [ ] [Task 2]
-
-## Acceptance Criteria
-
-- [ ] AC-001: [Completion criterion]
+## Acceptance Criteria*
+- [ ] AC-001: [Criterion]
 ```

@@ -1,138 +1,227 @@
 ---
 name: issue-naming-conventions
-description: 'Standards for GitHub issue naming and requirement IDs. Use when creating issues, assigning IDs (FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####, IN-####), or ensuring issue traceability. Triggers on: issue naming, requirement ID, issue prefix, check existing issues, increment issue number, ID conventions.'
+description: >
+  Canonical GitHub issue naming and requirement ID system. Use when creating issues,
+  assigning traceable IDs (FR-####, BG-####, HF-####, TC-####, SC-####, PF-####, DC-####,
+  IN-####), or ensuring issue traceability. CRITICAL: Only prefixes defined in
+  issue-types.yml are allowed. Triggers on: create issue, new issue, assign ID,
+  requirement ID, issue prefix, check existing issues, increment issue number, ID
+  conventions, issue title, issue naming.
 license: Complete terms in LICENSE.txt
 ---
 
-# Issue Naming Conventions
+# Issue Naming Conventions Skill
 
-This skill defines the standard conventions for naming GitHub issues and assigning requirement IDs to ensure traceability and consistency.
+Apply consistent, traceable requirement IDs to GitHub issues using a **canonical naming taxonomy**. This skill ensures issues are standardized across repositories and enables full traceability from requirements to implementation.
+
+## ⛔ MANDATORY PRE-FLIGHT PROTOCOL
+
+> **STOP! Before ANY issue creation or ID assignment, you MUST complete this checklist:**
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  ISSUE ID ASSIGNMENT PRE-FLIGHT CHECKLIST (MANDATORY)                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  □ Step 1: READ the taxonomy file                                          │
+│            read_file .github/skills/issue-naming-conventions/references/   │
+│                      issue-types.yml                                       │
+│                                                                             │
+│  □ Step 2: IDENTIFY the correct prefix for the issue type                  │
+│            Match user intent to FR/BG/HF/TC/SC/PF/DC/IN                    │
+│                                                                             │
+│  □ Step 3: QUERY existing issues to find the highest ID                    │
+│            gh issue list --search "PREFIX-" --state all --limit 500        │
+│                                                                             │
+│  □ Step 4: INCREMENT to next sequential number, zero-pad to 4 digits       │
+│            If highest is FR-0042, next is FR-0043                          │
+│                                                                             │
+│  □ Step 5: VALIDATE the ID doesn't already exist before creating           │
+│            gh issue list --search "PREFIX-NNNN" --state all                │
+│                                                                             │
+│  ⚠️  SKIPPING ANY STEP = PROTOCOL VIOLATION                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**If you haven't queried existing issues for the highest ID, you CANNOT create an issue.**
+
+## Critical Constraints
+
+> **⚠️ ABSOLUTE RULE #1: You MUST NEVER create an issue without first querying existing issues to determine the next sequential ID.**
+
+> **⚠️ ABSOLUTE RULE #2: You MUST NEVER reuse an ID, even for closed or deleted issues. IDs are permanently allocated.**
+
+> **⚠️ ABSOLUTE RULE #3: You MUST NEVER invent new prefixes. Only use prefixes defined in [issue-types.yml](./references/issue-types.yml).**
+
+If a user requests an issue type that doesn't fit existing prefixes:
+
+1. Explain that no matching prefix exists
+2. Suggest the closest matching prefix from the taxonomy
+3. If truly no match, use TC (Technical Chore) as a fallback and note it in the issue
 
 ## When to Use This Skill
 
-- Creating new GitHub issues with proper ID prefixes
-- Determining the next sequential ID for a requirement type
-- Checking existing issues before creating new ones
-- Ensuring issue traceability across the codebase
-- Any workflow involving standardized issue naming
+- User asks to **create a new issue** with proper ID
+- User asks to **assign a requirement ID** to work items
+- User asks to **determine the next ID** for a specific type
+- User asks about **issue naming conventions** or standards
+- User needs to **ensure traceability** across the codebase
+- User mentions **FR, BG, HF, TC, SC, PF, DC, or IN** prefixes
+- User asks to **triage or categorize** incoming work
+- User asks how to **format an issue title**
 
-## Requirement ID System
+## Issue Type Overview
 
-**CRITICAL**: Every issue MUST have a standardized, traceable ID with proper prefix and sequential numbering.
+All issues follow a **[PREFIX-####] Title** pattern. The taxonomy is defined in [issue-types.yml](./references/issue-types.yml).
 
 ### Requirement Type Prefixes
 
-| Prefix | Type | Description | Example |
-| ------ | ---- | ----------- | ------- |
-| `FR-####` | Feature Request | New features, enhancements, capabilities | `FR-0042` |
-| `HF-####` | Hotfix | Urgent production fixes, critical bugs | `HF-0015` |
-| `BG-####` | Bug | Non-critical bugs, defects, issues | `BG-0089` |
-| `TC-####` | Technical Chore | Refactoring, tech debt, maintenance | `TC-0023` |
-| `SC-####` | Security | Security fixes, vulnerabilities, compliance | `SC-0007` |
-| `PF-####` | Performance | Performance improvements, optimizations | `PF-0011` |
-| `DC-####` | Documentation | Documentation updates, guides, specs | `DC-0034` |
-| `IN-####` | Infrastructure | CI/CD, deployment, infrastructure changes | `IN-0019` |
+| Prefix | Type | Use For | Example |
+| ------ | ---- | ------- | ------- |
+| `FR-####` | Feature Request | Net-new user-facing capabilities | `[FR-0043] Add dark mode theme support` |
+| `BG-####` | Bug | Non-critical defects, broken functionality | `[BG-0089] Login fails when SSO is enabled` |
+| `HF-####` | Hotfix | Critical production issues, P0 emergencies | `[HF-0015] Critical: API returns 500 on all requests` |
+| `TC-####` | Technical Chore | Refactoring, tech debt, maintenance, **config files** | `[TC-0023] Refactor authentication module` |
+| `SC-####` | Security | Vulnerabilities, compliance, security fixes | `[SC-0007] Update dependencies with known CVEs` |
+| `PF-####` | Performance | Optimization, latency, throughput | `[PF-0011] Optimize database queries for dashboard` |
+| `DC-####` | Documentation | **Only** `docs/`, `README.md` — NOT agents/skills/instructions | `[DC-0034] Add API reference for v2 endpoints` |
+| `IN-####` | Infrastructure | CI/CD, deployment, DevOps | `[IN-0019] Configure staging environment CI/CD` |
+
+**CRITICAL**: Changes to `.github/` configuration files (agents, skills, instructions, prompts) should use `TC-####` (Technical Chore) or `FR-####` (Feature Request), **NEVER** `DC-####` (Documentation). These files are configuration/tooling, not documentation.
 
 ### ID Format Rules
 
-1. **Always 4-digit zero-padded**: `FR-0001`, not `FR-1`
-2. **Range**: 0001-9999 per prefix type
-3. **Permanent allocation**: IDs are never reused, even for closed issues
-4. **Title format**: `[PREFIX-####] Descriptive Title`
+- **Always 4-digit zero-padded**: `FR-0001`, not `FR-1`
+- **Range**: 0001-9999 per prefix type
+- **Permanent allocation**: IDs are never reused, even for closed issues
+- **Title format**: `[PREFIX-####] Descriptive Title`
+- **Max title length**: 72 characters (including prefix)
 
-## ID Assignment Protocol
+## Step-by-Step Workflows
 
-**MANDATORY WORKFLOW**: Before assigning ANY requirement ID:
+### Workflow 1: Create a New Issue with Proper ID
 
-### Step 1: Query Existing Issues
+1. **Read the taxonomy**: Load [issue-types.yml](./references/issue-types.yml) to identify the correct prefix
+2. **Match user intent**: Determine which prefix fits (see type descriptions)
+3. **Query existing issues**: Find the highest ID for that prefix
 
-```bash
-# Check all issues with a specific prefix
-gh issue list --search "FR-" --state all --limit 200 --json number,title
-```
+   ```bash
+   gh issue list --search "FR-" --state all --limit 500 --json title --jq '.[].title' | grep -oE 'FR-[0-9]+' | sort -t'-' -k2 -n | tail -1
+   ```
 
-### Step 2: Find the Highest Used Number
+4. **Increment the ID**: If highest is `FR-0042`, next is `FR-0043`
+5. **Validate uniqueness**: Confirm the ID doesn't exist
 
-```bash
-# Get the highest number for a prefix (example: FR)
-gh issue list --search "FR-" --state all --limit 200 --json title --jq '.[].title' | grep -oE 'FR-[0-9]+' | sort -t'-' -k2 -n | tail -1
-```
+   ```bash
+   gh issue list --search "FR-0043" --state all
+   ```
 
-### Step 3: Increment Sequentially
+6. **Select template**: Use the appropriate template from [body-templates.md](./references/body-templates.md)
+7. **Create the issue**: Apply proper title format and body template
 
-- If highest is `FR-0042`, next is `FR-0043`
-- If no issues exist with prefix, start at `0001`
-
-### Step 4: Never Reuse IDs
-
-Even if an issue is closed or deleted, its ID is permanently allocated.
-
-## Issue Title Format
-
-### Standard Format
+**Example Output:**
 
 ```text
-[PREFIX-####] Descriptive, actionable title
+Next available Feature Request ID: FR-0043
+
+Issue title: [FR-0043] Add dark mode theme support
+
+Using template: Feature Request (Full)
+- Includes: Summary, User Story, Problem Statement, Proposed Solution, Acceptance Criteria
 ```
 
-### Examples
+### Workflow 2: Find Next Available ID
 
-| Type | Title |
-| ---- | ----- |
-| Feature | `[FR-0043] Add dark mode theme support` |
-| Bug | `[BG-0089] Login fails when SSO is enabled` |
-| Hotfix | `[HF-0015] Critical: API returns 500 on checkout` |
-| Tech Chore | `[TC-0023] Refactor authentication module` |
-| Security | `[SC-0007] Update dependencies with known CVEs` |
-| Performance | `[PF-0011] Optimize database queries for dashboard` |
-| Documentation | `[DC-0034] Add API reference for v2 endpoints` |
-| Infrastructure | `[IN-0019] Configure staging environment CI/CD` |
+1. **Identify the prefix type** from user request
+2. **Execute the query**:
 
-### Title Guidelines
+   ```bash
+   PREFIX="FR" && gh issue list --search "$PREFIX-" --state all --limit 500 --json title --jq '.[].title' | grep -oE "$PREFIX-[0-9]+" | sort -t'-' -k2 -n | tail -1 | awk -F'-' -v p="$PREFIX" '{printf "%s-%04d\n", p, $2+1}'
+   ```
 
-- Be specific and actionable
-- Keep under 72 characters (including prefix)
-- Use imperative mood ("Add", "Fix", "Update", not "Added", "Fixed")
-- Include key context (component, scope)
+3. **If no issues exist** with that prefix, start at `0001`
+4. **Report the result** with confidence
 
-## Issue Body Structure
+**Example:**
 
-### Standard Sections
-
-Every issue should include:
-
-```markdown
-#### PREFIX-####: [Descriptive Requirement Title]
-**Type**: [Feature Request | Bug | Hotfix | Technical Chore | Security | Performance | Documentation | Infrastructure]
-**Priority**: P0/P1/P2/P3
-**Description**: Clear, comprehensive description...
+```text
+Query: Find next Bug ID
+Result: BG-0090 (current highest: BG-0089)
 ```
 
-### Type-Specific Templates
+### Workflow 3: Validate an Existing ID
 
-See [references/body-templates.md](references/body-templates.md) for complete templates per issue type.
+1. **Parse the ID** from user input
+2. **Check format validity**: Must match `^[A-Z]{2}-[0-9]{4}$`
+3. **Verify prefix exists** in taxonomy
+4. **Check issue existence**:
 
-## Validation Checklist
+   ```bash
+   gh issue list --search "FR-0043" --state all --json number,title,state
+   ```
 
-Before creating any issue:
+5. **Report findings**:
+   - If exists: Return issue details
+   - If not: Confirm ID is available for use
 
-- [ ] Searched existing issues for duplicates
-- [ ] Identified the correct prefix type
-- [ ] Found the highest existing ID for that prefix
-- [ ] Incremented to next sequential ID
-- [ ] Formatted ID with 4-digit zero-padding
-- [ ] Used appropriate type-specific template for body
-- [ ] Title is under 72 characters and actionable
+### Workflow 4: Suggest Correct Prefix for Work Item
+
+1. **Analyze the work description** provided by user
+2. **Match against type definitions** in [issue-types.yml](./references/issue-types.yml)
+3. **Consider keywords**: Each type has associated keywords
+4. **Apply exclusion rules**: Check "when_not_to_use" guidance
+5. **Recommend the prefix** with justification
+
+**Example:**
+
+```text
+Work: "The dashboard is loading slowly, taking 5+ seconds"
+Analysis: Performance issue with measurable metric
+Recommendation: PF (Performance)
+Justification: Latency/speed issue, not a bug (functional), has measurable target
+```
 
 ## Quick Reference Commands
 
+### Find Next ID for Any Prefix
+
 ```bash
-# Find next ID for a prefix (replace FR with desired prefix)
+# Replace PREFIX with: FR, BG, HF, TC, SC, PF, DC, or IN
 PREFIX="FR" && gh issue list --search "$PREFIX-" --state all --limit 500 --json title --jq '.[].title' | grep -oE "$PREFIX-[0-9]+" | sort -t'-' -k2 -n | tail -1 | awk -F'-' -v p="$PREFIX" '{printf "%s-%04d\n", p, $2+1}'
-
-# Search for existing issues by keyword
-gh issue list --search "keyword" --state all --limit 50
-
-# Check if issue with ID already exists
-gh issue list --search "FR-0043" --state all
 ```
+
+### Check if ID Exists
+
+```bash
+gh issue list --search "FR-0043" --state all --json number,title,state
+```
+
+### List All Issues with Prefix
+
+```bash
+gh issue list --search "BG-" --state all --limit 200 --json number,title,state
+```
+
+### Get Highest ID for Each Prefix
+
+```bash
+for PREFIX in FR BG HF TC SC PF DC IN; do
+  HIGHEST=$(gh issue list --search "$PREFIX-" --state all --limit 500 --json title --jq '.[].title' | grep -oE "$PREFIX-[0-9]+" | sort -t'-' -k2 -n | tail -1)
+  echo "$PREFIX: ${HIGHEST:-$PREFIX-0000 (none)}"
+done
+```
+
+## Troubleshooting
+
+| Issue | Solution |
+| ----- | -------- |
+| No issues found for prefix | Start numbering at 0001 |
+| User requests unknown prefix | Map to closest existing prefix, suggest TC as fallback |
+| ID already exists | Query was stale; re-run and increment |
+| Title exceeds 72 characters | Shorten the descriptive portion, keep prefix |
+| Unsure which type to use | Consult type keywords and when_to_use in YAML |
+| Need to change issue type | Create new issue with correct prefix, close old one |
+
+## References
+
+- [Issue Type Definitions (YAML)](./references/issue-types.yml) — Canonical taxonomy
+- [Issue Body Templates](./references/body-templates.md) — Full and minimal templates for each type
