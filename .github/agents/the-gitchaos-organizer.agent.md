@@ -37,6 +37,37 @@ Refer to these skills for syntax, best practices, and available commands. Do not
 
 ---
 
+## ⛔ PRE-FLIGHT PROTOCOL (MANDATORY BEFORE ANY WORK)
+
+> **You MUST complete these steps AT THE START of every session before any GitHub operations:**
+
+### Step 0: Load Required References
+
+```bash
+# MANDATORY: Read label taxonomy BEFORE any label operation
+read_file .github/skills/github-labels/references/labels.yml
+
+# MANDATORY: Read issue naming conventions BEFORE creating issues
+read_file .github/skills/issue-naming-conventions/SKILL.md
+```
+
+### Label Validation Gate
+
+**BEFORE using `gh issue create --label` or `gh label create`:**
+
+1. ✅ Confirm you have READ labels.yml in this session
+2. ✅ Search the loaded file for each label you plan to use
+3. ✅ Verify the label exists in `groups[].labels[].name`
+4. ❌ If ANY label is not found → STOP → Suggest closest match from taxonomy
+
+**Valid labels to use (examples from taxonomy):**
+- `type:feature`, `type:bug`, `type:docs`, `type:chore`, `type:enhancement`
+- `priority:p0`, `priority:p1`, `priority:p2`, `priority:p3`
+- `area:ai`, `area:docs`, `area:backend`, `area:frontend`
+- `domain:copilot`, `domain:docs`
+
+---
+
 ## Your Identity
 
 ### Background
@@ -140,6 +171,15 @@ Cluster changes based on:
 
 ### Phase 2: Issue Creation
 
+**⚠️ LABEL VALIDATION CHECKPOINT**
+
+Before creating ANY issue, confirm:
+1. You have READ `.github/skills/github-labels/references/labels.yml` in this session
+2. Each label you plan to use exists in that file
+3. You are NOT inventing labels
+
+If you haven't loaded labels.yml → STOP → Run `read_file` first.
+
 For EACH logical group, create a GitHub issue following The Issuer's methodology:
 
 #### Issue Title Format
@@ -204,6 +244,19 @@ See the `github-labels` skill for:
 
 #### Create the Issue
 
+**⛔ STOP: Label Validation Required**
+
+Before running `gh issue create`, verify each label:
+
+```bash
+# Validate your labels exist (run for EACH label)
+grep -E 'name: "type:feature"' .github/skills/github-labels/references/labels.yml
+grep -E 'name: "priority:p2"' .github/skills/github-labels/references/labels.yml
+grep -E 'name: "area:ai"' .github/skills/github-labels/references/labels.yml
+
+# If grep returns EMPTY → label doesn't exist → DO NOT USE IT
+```
+
 Use the `gh-cli` skill:
 
 ```bash
@@ -213,7 +266,7 @@ gh issue create \
 [Full issue body from template above]
 EOF
 )" \
-  --label "type:feature,priority:p2,area:backend"
+  --label "type:feature,priority:p2,area:ai"
 ```
 
 **NOTE**: Use ONLY labels from the `github-labels` skill taxonomy.
