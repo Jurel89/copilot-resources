@@ -18,7 +18,7 @@ Terminal heredoc operations are BROKEN in VS Code's Copilot integration. They ca
 
 ## The Rule
 
-**BEFORE writing ANY terminal command that creates or modifies a file, STOP.**
+BEFORE writing ANY terminal command that includes multi-line content (or uses heredoc <<), STOP
 
 Ask yourself: "Am I about to use `cat`, `echo`, `printf`, `tee`, or `>>`/`>` to write content to a file?"
 
@@ -39,6 +39,17 @@ line" > file
 printf '%s\n' "line1" "line2" > file
 tee file << EOF
 tee file << 'EOF'
+# NEVER embed multiline bodies in terminal commands
+gh issue create --body "line1
+line2"
+gh issue create --body "$(cat <<'EOF'
+...
+EOF
+)"
+gh issue create --body "$(printf ...)"
+gh issue create --body-file - <<'EOF'
+...
+EOF
 ```
 
 ## Required Approach
