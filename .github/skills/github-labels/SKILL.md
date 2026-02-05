@@ -182,8 +182,8 @@ Is something broken/not working?
    │              ├─ Yes → type:performance
    │              └─ No → Is it security-related?
    │                 ├─ Yes → type:security
-   │                 └─ No → Is it documentation only?
-   │                    ├─ Yes → type:docs
+   │                 └─ No → Is it documentation only? (README, guides, API docs)
+   │                    ├─ Yes → type:docs (NOT agents/skills/instructions/prompts)
    │                    └─ No → Is it test code only?
    │                       ├─ Yes → type:test
    │                       └─ No → Is it routine maintenance?
@@ -212,6 +212,23 @@ Before applying labels, verify:
 | Multiple exclusive labels | e.g., `type:bug` AND `type:feature` | Pick the primary type |
 | Using `type:bug` for slowness | Performance issues aren't bugs | Use `type:performance` |
 | Applying `type:docs` to code+docs | Type should reflect primary change | Use primary type, mention docs |
+| Applying `type:docs` to `.github` configs | Agents, skills, instructions are config | Use `type:chore` or `type:feature` |
+
+## Special File Type Classifications
+
+When changes involve special markdown files in `.github/`, classify them correctly:
+
+| File Type | Pattern | Correct Type | Reasoning |
+|-----------|---------|--------------|-----------|
+| Agent definitions | `*.agent.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
+| Skill definitions | `SKILL.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
+| Instruction files | `*.instructions.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
+| Prompt files | `*.prompt.md` | `type:feature` or `type:chore` | Configuration/tooling, not docs |
+| Workflow files | `.github/workflows/*.yml` | `type:ci` | CI/CD configuration |
+| Action configs | `.github/actions/*` | `type:ci` | CI/CD configuration |
+| Documentation | `docs/**/*.md`, `README.md` | `type:docs` | Actual documentation |
+
+**Rule of Thumb**: If it's in `.github/` and affects how tools/AI work, it's `type:chore` or `type:feature`, NOT `type:docs`.
 
 ## Troubleshooting
 
