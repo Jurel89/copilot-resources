@@ -13,4 +13,7 @@ This folder contains the “primary docs” for **copilot-resources**: what it i
 ## Reference
 
 - [Catalog (agents, skills, prompts, instructions)](reference/catalog.md)
+- [Agents (one-click install buttons)](reference/agents.md)
+- [Instructions (one-click install buttons)](reference/instructions.md)
+- [Prompts (one-click install buttons)](reference/prompts.md)
 - [Glossary](reference/glossary.md)
