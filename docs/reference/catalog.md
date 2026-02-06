@@ -42,6 +42,7 @@ Prompts live in `.github/prompts/`.
 - [backfill-issue-labels.prompt.md](../../.github/prompts/backfill-issue-labels.prompt.md) — backfill missing issue labels from descriptions and linked PR file changes.
 - [configure-gitignore.prompt.md](../../.github/prompts/configure-gitignore.prompt.md) — adds ignore rules for internal docs and Copilot customization assets.
 - [organize-chaos.prompt.md](../../.github/prompts/organize-chaos.prompt.md) — organize uncommitted git changes into issues/branches/PRs.
+- [release-changelog.prompt.md](../../.github/prompts/release-changelog.prompt.md) — generate/update changelog, bump version, tag, and publish a GitHub release.
 - [sync-copilot-assets.prompt.md](../../.github/prompts/sync-copilot-assets.prompt.md) — sync agents/instructions/prompts/skills to target repos.
 - [sync-labels.prompt.md](../../.github/prompts/sync-labels.prompt.md) — sync repo labels to canonical taxonomy.
 
