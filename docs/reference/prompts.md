@@ -1,0 +1,21 @@
+# Prompts
+
+Prompt files live in `.github/prompts/`.
+
+This page provides a quick summary plus **one-click install buttons** (VS Code Chat deep links) that point at each prompt file’s `raw.githubusercontent.com` URL.
+
+> Note: These install buttons use the same redirect pattern as `github/awesome-copilot` (`https://aka.ms/awesome-copilot/install/prompt?...`). If your browser or GitHub client blocks custom URI schemes, use the **Raw** link instead.
+
+## Prompts catalog (with install buttons)
+
+| Prompt | Summary | Install | Source | Raw |
+| --- | --- | --- | --- | --- |
+| backfill-issue-labels | Backfill labels on all unlabeled GitHub issues by analyzing issue descriptions and related PR file changes using the canonical label taxonomy | [![Install in VS Code](https://img.shields.io/badge/VS%20Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FJurel89%2Fcopilot-resources%2Fmain%2F.github%2Fprompts%2Fbackfill-issue-labels.prompt.md) | [backfill-issue-labels.prompt.md](../../.github/prompts/backfill-issue-labels.prompt.md) | [raw](https://raw.githubusercontent.com/Jurel89/copilot-resources/main/.github/prompts/backfill-issue-labels.prompt.md) |
+| configure-gitignore | Configure .gitignore to exclude internal documentation and Copilot customization files from version control | [![Install in VS Code](https://img.shields.io/badge/VS%20Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FJurel89%2Fcopilot-resources%2Fmain%2F.github%2Fprompts%2Fconfigure-gitignore.prompt.md) | [configure-gitignore.prompt.md](../../.github/prompts/configure-gitignore.prompt.md) | [raw](https://raw.githubusercontent.com/Jurel89/copilot-resources/main/.github/prompts/configure-gitignore.prompt.md) |
+| organize-chaos | Fully automate organizing uncommitted changes into documented issues, branches, PRs, and merges to main | [![Install in VS Code](https://img.shields.io/badge/VS%20Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FJurel89%2Fcopilot-resources%2Fmain%2F.github%2Fprompts%2Forganize-chaos.prompt.md) | [organize-chaos.prompt.md](../../.github/prompts/organize-chaos.prompt.md) | [raw](https://raw.githubusercontent.com/Jurel89/copilot-resources/main/.github/prompts/organize-chaos.prompt.md) |
+| sync-copilot-assets | Sync Copilot agents, instructions, prompts, and skills from copilot-resources to target repositories | [![Install in VS Code](https://img.shields.io/badge/VS%20Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FJurel89%2Fcopilot-resources%2Fmain%2F.github%2Fprompts%2Fsync-copilot-assets.prompt.md) | [sync-copilot-assets.prompt.md](../../.github/prompts/sync-copilot-assets.prompt.md) | [raw](https://raw.githubusercontent.com/Jurel89/copilot-resources/main/.github/prompts/sync-copilot-assets.prompt.md) |
+| sync-labels | Synchronize repository GitHub labels with the canonical label taxonomy — creates missing labels, removes unlisted ones | [![Install in VS Code](https://img.shields.io/badge/VS%20Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FJurel89%2Fcopilot-resources%2Fmain%2F.github%2Fprompts%2Fsync-labels.prompt.md) | [sync-labels.prompt.md](../../.github/prompts/sync-labels.prompt.md) | [raw](https://raw.githubusercontent.com/Jurel89/copilot-resources/main/.github/prompts/sync-labels.prompt.md) |
+
+## Updating the links (forks / branches)
+
+If you fork this repo or use a different default branch, update the **Raw** and **Install** URLs in this page to match your GitHub owner/repo/branch.
